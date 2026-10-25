@@ -29,8 +29,9 @@ foreach ($taskExistingMarker in @($false,$true)) {
     if ([IO.File]::ReadAllText((Join-Path $taskGame 'Rocksmith.ini')) -cne $taskAudio) { throw 'Configurações de áudio/vídeo foram alteradas.' }
     if ([IO.File]::ReadAllText((Join-Path $taskGame 'avrt.dll')) -cne 'ORIGINAL-avrt.dll') { throw 'avrt.dll foi alterado.' }
     $taskMarkerBytes = [IO.File]::ReadAllBytes((Join-Path $taskGame 'RSBridgePlayer.txt'))
-    $taskExpectedPath = Join-Path $taskInstaller 'player\RocksmithStreamBridge.exe'
-    if ([Text.Encoding]::Unicode.GetString($taskMarkerBytes) -cne $taskExpectedPath) { throw 'Caminho ou encoding do reprodutor incorreto.' }
+    $taskExpectedPath = (Resolve-Path -LiteralPath (Join-Path $taskInstaller 'player\RocksmithStreamBridge.exe')).Path
+    $taskDecodedPath = [Text.Encoding]::Unicode.GetString($taskMarkerBytes)
+    if ($taskDecodedPath -ine $taskExpectedPath) { throw "Caminho ou encoding do reprodutor incorreto. Esperado: $taskExpectedPath; recebido: $taskDecodedPath" }
     $taskBackup = Get-ChildItem -LiteralPath (Join-Path $taskInstaller 'backups') -Directory | Where-Object { $_.FullName -notin $taskBeforeBackups } | Select-Object -First 1
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $taskInstaller 'Restore.ps1') -BackupDirectory $taskBackup.FullName
     if ($LASTEXITCODE -ne 0) { throw 'Restauração fictícia falhou.' }
