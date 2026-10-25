@@ -11,7 +11,7 @@ class InstallationTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
         self.game = self.root / 'Game with spaces'
         self.package = self.root / 'Installed app'
         self.state = self.root / 'state/installation.json'

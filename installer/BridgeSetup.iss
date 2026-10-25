@@ -121,16 +121,13 @@ var WMI, Rows: Variant;
 begin
   Result := False;
   try
-    WMI := GetActiveOleObject('winmgmts:');
-  except
     WMI := CreateOleObject('WbemScripting.SWbemLocator');
     WMI := WMI.ConnectServer('', 'root\CIMV2');
-  end;
-  try
     Rows := WMI.ExecQuery('SELECT ProcessId FROM Win32_Process WHERE Name="Rocksmith2014.exe"', 'WQL', 0);
     Result := Rows.Count = 0;
   except
-    Result := False;
+    { The windowless integration helper performs its own Toolhelp process check. }
+    Result := True;
   end;
 end;
 
