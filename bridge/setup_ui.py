@@ -22,12 +22,13 @@ TEXT = {
         'headphones': 'Where do you want to hear the game?',
         'refresh': 'Refresh devices',
         'open': 'Open Rocksmith',
-        'test_hint': 'Keep the game in front. Play a few notes, then return here.',
+        'test_hint': 'Keep the game in front for 10 seconds. Play a few notes, then return here.',
         'waiting_game': 'Open Rocksmith to start the test.',
         'waiting_bridge': 'Game detected. Waiting for the audio bridge…',
         'no_audio': 'No new audio. Bring the game to the front and check the driver panel.',
         'restart_output': 'Close and reopen the game to apply your new headphones output.',
         'receiving': '✓ Game audio is reaching your headphones output.',
+        'tested': '✓ Audio tested. The game may pause when you switch away.',
         'signal': '✓ Sound signal detected.',
         'silence': 'Waiting for a sound signal…',
         'closed': 'The game closed. Check the audio settings before trying again.',
@@ -53,12 +54,13 @@ TEXT = {
         'headphones': 'Onde você quer ouvir o jogo?',
         'refresh': 'Atualizar dispositivos',
         'open': 'Abrir Rocksmith',
-        'test_hint': 'Deixe o jogo em primeiro plano. Toque algumas notas e volte aqui.',
+        'test_hint': 'Deixe o jogo em primeiro plano por 10 segundos. Toque algumas notas e volte aqui.',
         'waiting_game': 'Abra o Rocksmith para começar o teste.',
         'waiting_bridge': 'Jogo detectado. Aguardando a ponte de áudio…',
         'no_audio': 'Sem áudio novo. Volte ao jogo e confira o painel do driver.',
         'restart_output': 'Feche e abra o jogo para aplicar a nova saída de fone.',
         'receiving': '✓ O áudio do jogo está chegando à saída do fone.',
+        'tested': '✓ Áudio testado. O jogo pode pausar quando você sai dele.',
         'signal': '✓ Sinal de som detectado.',
         'silence': 'Aguardando sinal de som…',
         'closed': 'O jogo fechou. Confira o áudio antes de tentar de novo.',
@@ -107,6 +109,13 @@ class AudioProbe:
         self.received = False
         self.signal = False
         self.saw_game = False
+        self.flow_since = None
+        self.verified = False
+
+    def can_confirm(self, state, now):
+        # Preserve a recent measured result while the user returns from the game.
+        # Never treat a process with static counters as a successful measurement.
+        return state in ('receiving', 'no_audio') and self.verified and now - self.last_packet < 30
 
     def sample(self, data, pids, fresh, now, output=''):
         if not pids:
@@ -121,13 +130,18 @@ class AudioProbe:
             self.blocks = None
             self.last_packet = now
             self.received = self.signal = False
+            self.flow_since = None
+            self.verified = False
         if not data.get('audio_connected'):
             return 'waiting_bridge'
         blocks = data.get('audio_blocks', 0)
         if self.blocks is not None and blocks > self.blocks:
+            if self.flow_since is None or now - self.last_packet > 3:
+                self.flow_since = now
             self.last_packet = now
             self.received = True
             self.signal |= data.get('audio_peak', 0) > 0.00001
+            self.verified |= self.signal and now - self.flow_since >= 5
         self.blocks = blocks
         if now - self.last_packet > 3:
             return 'no_audio'
@@ -285,12 +299,14 @@ def run_setup(data_dir, output_devices, save_output, game_pids):
                     fresh = 0 <= time.time() - file.stat().st_mtime < 3
                 except (OSError, ValueError):
                     data, fresh = {}, False
-                state = probe.sample(data, game_pids(), fresh, time.monotonic(), selected_output)
-                status.configure(text=t[state])
+                now = time.monotonic()
+                state = probe.sample(data, game_pids(), fresh, now, selected_output)
+                confirmed = probe.can_confirm(state, now)
+                status.configure(text=t['tested' if state == 'no_audio' and confirmed else state])
                 has_mods = game and any((game / name).is_file() for name in ('xinput1_3.dll', 'D3DX9_42.dll'))
                 mod_warning.configure(text=t['mods'] if state == 'closed' and has_mods else '')
                 signal.configure(text=t['signal' if probe.signal else 'silence'] if state == 'receiving' else '')
-                next_button.configure(state='normal' if state == 'receiving' and probe.signal else 'disabled')
+                next_button.configure(state='normal' if confirmed else 'disabled')
                 timer = root.after(500, tick)
             tick()
 

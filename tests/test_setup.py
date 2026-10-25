@@ -46,6 +46,29 @@ class SetupTests(unittest.TestCase):
         self.assertEqual(probe.sample(data, [10], True, 1, 'New headphones'), 'restart_output')
         self.assertFalse(probe.signal)
 
+    def test_recent_audio_measurement_survives_returning_from_game(self):
+        probe = AudioProbe()
+        data = dict(parent_pid=10, audio_connected=True, audio_blocks=0, audio_peak=0.2)
+        probe.sample(data, [10], True, 0)
+        for second in range(1, 7):
+            data['audio_blocks'] += 100
+            state = probe.sample(data, [10], True, second)
+        self.assertTrue(probe.can_confirm(state, 6))
+        state = probe.sample(data, [10], True, 10)
+        self.assertEqual(state, 'no_audio')
+        self.assertTrue(probe.can_confirm(state, 10))
+        self.assertFalse(probe.can_confirm(state, 40))
+        self.assertFalse(probe.can_confirm('closed', 10))
+
+    def test_brief_startup_audio_is_not_a_completed_measurement(self):
+        probe = AudioProbe()
+        data = dict(parent_pid=10, audio_connected=True, audio_blocks=100, audio_peak=0.2)
+        probe.sample(data, [10], True, 0)
+        data['audio_blocks'] += 10
+        state = probe.sample(data, [10], True, 1)
+        self.assertFalse(probe.can_confirm(state, 1))
+        self.assertFalse(probe.can_confirm(probe.sample(data, [10], True, 10), 10))
+
     def test_both_languages_can_select_output_and_run_test_without_touching_game(self):
         real_tk = tk.Tk
         for language in TEXT:
