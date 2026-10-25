@@ -20,7 +20,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\Install.Tests.ps1
 
 `Build.ps1` downloads the fixed RS_ASIO v0.7.4 release, patches a clean source tree and builds the DLL x86. The player is x64. Native and Python tests verify the shared-memory protocol across those architectures. The installer tests use isolated dummy files, never the actual game.
 
-GitHub Actions runs those checks and generates a ZIP with a SHA256 checksum. Successful main-branch builds create a **draft prerelease**; review the workflow results and publish that draft from the repository's Releases page. Drafts are not visible to regular visitors. Pull-request builds do not publish releases.
+GitHub Actions runs those checks and generates a ZIP with a SHA256 checksum. Successful main-branch builds publish an **experimental prerelease**, with a unique preview tag for that build, on the repository's Releases page. Pull-request and manually dispatched builds do not publish releases.
 
 ## Architecture
 

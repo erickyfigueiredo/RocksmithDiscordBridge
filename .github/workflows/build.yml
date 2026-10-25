@@ -53,7 +53,7 @@ jobs:
             release/RocksmithDiscordBridge-Windows-x64.zip
             release/SHA256SUMS.txt
           if-no-files-found: error
-  draft-release:
+  preview-release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: windows
     runs-on: ubuntu-latest
@@ -65,10 +65,10 @@ jobs:
         with:
           name: Windows-x64-release
           path: release
-      - name: Create a draft preview release
+      - name: Publish an experimental preview release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           version=$(cat VERSION)
           tag="v${version}-preview.${GITHUB_RUN_NUMBER}"
-          gh release create "$tag" release/RocksmithDiscordBridge-Windows-x64.zip release/SHA256SUMS.txt --draft --prerelease --target "$GITHUB_SHA" --title "$tag" --notes-file RELEASE_NOTES.md
+          gh release create "$tag" release/RocksmithDiscordBridge-Windows-x64.zip release/SHA256SUMS.txt --prerelease --target "$GITHUB_SHA" --title "$tag" --notes-file RELEASE_NOTES.md
