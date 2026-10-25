@@ -4,6 +4,8 @@ on:
   pull_request:
   push:
     branches: [main]
+    paths-ignore:
+      - '**/*.md'
 permissions:
   contents: read
 jobs:
@@ -23,8 +25,6 @@ jobs:
         run: |
           node --test tests/patch.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          ./tests/FindGame.Tests.ps1
-          ./tests/Install.Tests.ps1
           ./tests/Signing.Tests.ps1
       - name: Build x86 RS_ASIO and native tests
         shell: pwsh
@@ -45,8 +45,6 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python tools/collect_licenses.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          python tools/package_release.py
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Build graphical Inno Setup installer and smoke test
         shell: pwsh
         run: |
@@ -66,7 +64,6 @@ jobs:
         with:
           name: Windows-x64-release
           path: |
-            release/RocksmithDiscordBridge-Windows-x64.zip
             release/RocksmithDiscordBridge-Setup-x64.exe
             release/SHA256SUMS.txt
           if-no-files-found: error
@@ -89,4 +86,5 @@ jobs:
           version=$(tr -d '\r\n' < VERSION)
           [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo 'Invalid VERSION'; exit 1; }
           tag="v${version}-preview.${GITHUB_RUN_NUMBER}"
-          gh release create "$tag" release/RocksmithDiscordBridge-Windows-x64.zip release/RocksmithDiscordBridge-Setup-x64.exe release/SHA256SUMS.txt --prerelease --target "$GITHUB_SHA" --title "$tag" --notes-file RELEASE_NOTES.md
+          gh release create "$tag" release/RocksmithDiscordBridge-Setup-x64.exe release/SHA256SUMS.txt --prerelease --target "$GITHUB_SHA" --title "$tag" --generate-notes --notes 'Windows x64 installer. See README for setup instructions and dependencies. Unsigned community preview.'
+          python3 tools/prune_previews.py --current-tag "$tag" --apply

@@ -14,8 +14,6 @@ settings.json
 ui.json
 diagnostics.json
 RSBridgePlayer.txt
-STATUS.md
-Voicemeeter/
 *.zip
 *.pdb
 *.ilk

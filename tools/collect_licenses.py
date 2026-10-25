@@ -8,7 +8,7 @@ import sysconfig
 root = Path(__file__).resolve().parents[1]
 output = root / 'licenses'
 output.mkdir(exist_ok=True)
-for name in ('numpy', 'sounddevice', 'Pillow', 'windows-capture', 'opencv-python', 'cffi', 'pycparser', 'pyinstaller'):
+for name in ('numpy', 'sounddevice', 'cffi', 'pycparser', 'pyinstaller'):
     dist = distribution(name)
     for relative in dist.files or []:
         lowered = str(relative).lower()

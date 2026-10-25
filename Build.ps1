@@ -14,7 +14,7 @@ if (-not $SourceDirectory) {
     New-Item -ItemType Directory -Path $taskVendor -Force | Out-Null
     $taskZip = Join-Path $taskVendor 'rs_asio-v0.7.4.zip'
     $taskSource = Join-Path $taskVendor ('build-' + [guid]::NewGuid().ToString('N'))
-    # Fixed release matching the installed RS_ASIO 0.7.4, never a moving master download.
+    # Build against the pinned upstream release.
     Invoke-WebRequest -Uri 'https://codeload.github.com/mdias/rs_asio/zip/refs/tags/v0.7.4' -OutFile $taskZip -UseBasicParsing
     Expand-Archive -LiteralPath $taskZip -DestinationPath $taskSource
     $SourceDirectory = Join-Path $taskSource 'rs_asio-0.7.4'
@@ -32,4 +32,4 @@ if ($LASTEXITCODE -ne 0) { throw 'Compilação do teste nativo falhou.' }
 & (Join-Path $taskOut 'tests\native_tap_test.exe')
 if ($LASTEXITCODE -ne 0) { throw 'Teste nativo falhou; não instale a DLL.' }
 Get-FileHash -LiteralPath (Join-Path $taskOut 'RS_ASIO.dll') -Algorithm SHA256
-Write-Host 'DLL x86 compilada e teste nativo aprovado. Instale com Install.ps1.'
+Write-Host 'DLL x86 compilada e teste nativo aprovado. Gere o instalador com tools/BuildInstaller.ps1.'

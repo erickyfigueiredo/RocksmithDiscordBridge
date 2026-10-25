@@ -2,37 +2,39 @@
 
 ## Build on Windows
 
-Install Python 3.12 x64, Node.js 22, Visual Studio Build Tools 2022 with MSVC v143 (x86/x64), a Windows 10/11 SDK, and Inno Setup 6.7.3 or newer.
+Required tools: Python 3.12 x64, Node.js 22, Visual Studio Build Tools 2022 with MSVC v143 x86/x64, Windows SDK, and Inno Setup 6.7.3 or newer.
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Build.ps1
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+./Build.ps1
 node --test tests/patch.test.mjs
-powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\FindGame.Tests.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\Install.Tests.ps1
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-.\.venv\Scripts\python.exe -m pip install 'pyinstaller>=6,<7'
-.\.venv\Scripts\python.exe -m PyInstaller --noconfirm RocksmithStreamBridge.spec
-.\.venv\Scripts\python.exe tools/collect_licenses.py
-.\.venv\Scripts\python.exe tools/package_release.py
-powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\BuildInstaller.ps1
+./tests/Signing.Tests.ps1
+python -m unittest discover -s tests -v
+python -m pip install 'pyinstaller>=6,<7'
+python -m PyInstaller --noconfirm RocksmithStreamBridge.spec
+python tools/collect_licenses.py
+./tools/BuildInstaller.ps1
 ```
 
-`Build.ps1` downloads the fixed RS_ASIO v0.7.4 release, patches a clean source tree and builds the DLL x86. The player is x64. Native and Python tests verify the shared-memory protocol across those architectures. The installer tests use isolated dummy files, never the actual game.
+`Build.ps1` downloads RS_ASIO v0.7.4, applies the patch and builds x86 DLLs and native tests. The Python player is x64. The installer is generated under `release/`. See [publisher signing](docs/signing.md) for signed builds.
 
-GitHub Actions also compiles the Inno Setup installer and tests actual installation/uninstallation against a synthetic game folder. It generates Setup.exe and a portable ZIP with SHA256 checksums. Successful main-branch builds publish an **experimental prerelease**, with a unique preview tag for that build, on the repository's Releases page. Pull-request and manually dispatched builds do not publish releases.
+GitHub Actions runs native/Python tests and installs, reinstalls and uninstalls Setup against a synthetic game folder. Successful main-branch builds publish installers and SHA256 checksums. The two most recent published previews are retained; older previews and abandoned preview drafts are removed. Stable releases and Git tags are retained. Documentation-only pushes do not publish installers.
 
 ## Architecture
 
-`native/BridgeTap.h` copies the final game audio, after software volume, into a bounded shared-memory ring. ASIO never waits for a reader. `native/BridgePlayer.h` optionally launches one windowless player from the game, during output initialization rather than the callback. A UTF-16LE configuration file in the game's directory enables that launch. `app.py --audio-only --parent-pid PID` receives only that parent's audio and exits when the game closes. `--configure-output` selects the WASAPI output without opening the game.
+- `native/BridgeTap.h`: bounded shared-memory audio ring; ASIO never waits for a reader.
+- `native/BridgePlayer.h`: launches the player during output initialization.
+- `app.py`: WASAPI playback and application entry point.
+- `bridge/setup_ui.py`: bilingual setup and diagnostics.
+- `bridge/installation.py`: transactional integration and restore.
+- `installer/BridgeSetup.iss`: wizard and dependency downloads.
 
-The diagnostic video UI remains available with `app.py --diagnostic-preview`. Running without arguments opens guided audio setup. Avoid adding blocking operations, allocation or process creation to the ASIO callback.
+`--audio-only --parent-pid PID` reads that game's audio. Without arguments, or with `--configure-output`, the application opens guided setup. `--set-output NAME` is available for command-line tests.
 
-Publisher signing is prepared as an optional build path; see [SIGNING.md](SIGNING.md). The normal CI preview remains unsigned until a real certificate/provider and validated publisher are configured.
+Changes to audio, process launch and installation require focused regression tests. Keep blocking work and allocation out of the ASIO callback. Check UI changes in both languages.
 
 ## Reports
 
-Include Windows/Discord versions, game/RS_ASIO versions, ASIO driver, guitar interface, selected WASAPI output and the exact symptom. Say whether the original game sound works, whether copied audio works locally and whether the remote viewer gets video and audio. Keep personal paths and identifiers out of public logs.
-
-The first release has been tested on one hardware setup. Changes to device selection, process launch, installation/rollback, PCM decoding or synchronization need focused tests. UI-only changes usually need a manual visual check.
+Include Windows/Discord versions, game version, ASIO driver and reproduction steps. Distinguish game audio, local playback and what the viewer receives. Review logs for personal device names and paths before attaching them.

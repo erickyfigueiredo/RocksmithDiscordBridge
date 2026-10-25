@@ -3,6 +3,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+import tkinter as tk
 from unittest.mock import patch
 import app
 
@@ -20,7 +21,7 @@ class HeadlessPlayerTests(unittest.TestCase):
                 runner.messages.put(('connected', 'Connected'))
                 runner.messages.put(('done', None))
 
-            with patch.object(app, 'DATA_DIR', root), patch.object(app, 'output_devices', return_value=[(22, 'Test headphones')]), patch.object(app.App, 'audio_worker', audio), patch.object(app.tk, 'Tk', side_effect=AssertionError('Headless player created a window')), patch.object(sys, 'argv', ['app.py', '--audio-only', '--parent-pid', '1234']):
+            with patch.object(app, 'DATA_DIR', root), patch.object(app, 'output_devices', return_value=[(22, 'Test headphones')]), patch.object(app.AudioReceiver, 'audio_worker', audio), patch.object(tk, 'Tk', side_effect=AssertionError('Headless player created a window')), patch.object(sys, 'argv', ['app.py', '--audio-only', '--parent-pid', '1234']):
                 app.run_audio_only()
             result = json.loads((root / 'diagnostics.json').read_text(encoding='utf-8'))
             self.assertTrue(result['audio_only'])

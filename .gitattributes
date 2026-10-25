@@ -6,4 +6,3 @@
 *.h text eol=lf
 *.cpp text eol=lf
 *.ps1 text eol=crlf
-*.cmd text eol=crlf

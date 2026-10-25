@@ -1,5 +1,5 @@
 #ifndef AppVersion
-#define AppVersion "0.3.1"
+#define AppVersion "0.3.2"
 #endif
 [Setup]
 AppId={{341F8138-1E9E-4EAD-8253-DC4628AFC65B}
@@ -107,9 +107,10 @@ Source: "..\bin\avrt.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
 Source: "..\config\RS_ASIO.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\README.pt-BR.md"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\DEPENDENCIES.md"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\SIGNING.md"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\PRIVACY.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\docs\dependencies.md"; DestDir: "{app}\docs"; Flags: ignoreversion
+Source: "..\docs\signing.md"; DestDir: "{app}\docs"; Flags: ignoreversion
+Source: "..\docs\privacy.md"; DestDir: "{app}\docs"; Flags: ignoreversion
+Source: "..\docs\troubleshooting.md"; DestDir: "{app}\docs"; Flags: ignoreversion
 Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\THIRD_PARTY_NOTICES.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\licenses\*"; DestDir: "{app}\licenses"; Flags: ignoreversion recursesubdirs createallsubdirs

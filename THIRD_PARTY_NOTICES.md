@@ -40,9 +40,6 @@ The Windows distribution includes license texts under `licenses/`, in addition t
 | CPython | Python Software Foundation License and included historical licenses | https://www.python.org/ |
 | NumPy | BSD-3-Clause and bundled numerical-library notices | https://numpy.org/ |
 | sounddevice / PortAudio | MIT / PortAudio license | https://python-sounddevice.readthedocs.io/ |
-| Pillow | MIT-CMU (HPND) | https://python-pillow.org/ |
-| Windows Capture | MIT | https://github.com/NiiightmareXD/windows-capture |
-| OpenCV Python | Apache-2.0 and bundled component notices | https://github.com/opencv/opencv-python |
 | CFFI | MIT | https://cffi.readthedocs.io/ |
 | pycparser | BSD-3-Clause | https://github.com/eliben/pycparser |
 | Tcl/Tk | Tcl/Tk licenses, included with the runtime | https://www.tcl.tk/ |

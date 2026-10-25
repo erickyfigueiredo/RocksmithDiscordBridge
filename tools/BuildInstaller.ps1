@@ -28,5 +28,5 @@ if ($SigningThumbprint) {
 } else {
     Write-Host 'Unsigned preview: no publisher certificate was supplied; SmartScreen may warn.'
 }
-& python -c "from pathlib import Path; import hashlib; p=Path('release'); files=sorted(f for f in p.iterdir() if f.suffix in ('.exe','.zip') and 'source' not in f.name); (p/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in files),encoding='utf-8')"
+& python -c "from pathlib import Path; import hashlib; p=Path('release'); files=[p/'RocksmithDiscordBridge-Setup-x64.exe']; (p/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name+'\n' for f in files),encoding='utf-8')"
 if ($LASTEXITCODE -ne 0) { throw 'Failed to generate release checksums.' }
