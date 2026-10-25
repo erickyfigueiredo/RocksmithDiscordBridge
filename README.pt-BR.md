@@ -2,7 +2,7 @@
 
 Transmita **Rocksmith 2014 com áudio ASIO no Discord**, usando a própria janela do jogo.
 
-[English](README.md) · [Baixar Setup](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/releases) · [Dependências](docs/dependencies.md)
+[English](README.md) · [Baixar Setup estável](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/releases/latest/download/RocksmithDiscordBridge-Setup-x64.exe) · [Dependências](docs/dependencies.md)
 
 ## Requisitos
 
@@ -22,7 +22,7 @@ RS_ASIO, Python e as bibliotecas do aplicativo estão incluídos. **RSMods é op
 
 O assistente oferece português e inglês. Ele preserva a configuração de áudio/vídeo existente e faz backup dos arquivos do jogo antes de alterá-los. Para atualizar, reinstale na mesma pasta. Feche o jogo antes de instalar ou desinstalar.
 
-O instalador de prévia está **sem assinatura digital** e pode exibir um aviso do SmartScreen. Veja [avisos do Windows](docs/signing.md#windows-warnings). Cada release inclui os checksums dos arquivos.
+O instalador está **sem assinatura digital** e pode exibir um aviso do SmartScreen. Veja [avisos do Windows](docs/signing.md#windows-warnings). Cada release inclui os checksums dos arquivos.
 
 ## Como funciona
 

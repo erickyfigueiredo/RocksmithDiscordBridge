@@ -22,6 +22,8 @@ python tools/collect_licenses.py
 
 GitHub Actions runs native/Python tests and installs, reinstalls and uninstalls Setup against a synthetic game folder. Successful main-branch builds publish installers and SHA256 checksums. The two most recent published previews are retained; older previews and abandoned preview drafts are removed. Stable releases and Git tags are retained. Documentation-only pushes do not publish installers.
 
+Stable releases are promoted through **Publish stable release** in Actions: select the tested preview, matching version and reviewed SHA256. The workflow copies and verifies the existing installer, publishes `vX.Y.Z` as Latest and refuses to overwrite an existing stable release. Stable releases are excluded from preview cleanup.
+
 ## Architecture
 
 - `native/BridgeTap.h`: bounded shared-memory audio ring; ASIO never waits for a reader.

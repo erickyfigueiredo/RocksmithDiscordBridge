@@ -2,9 +2,9 @@
 
 ## Windows warnings
 
-Preview installers are currently unsigned. Windows SmartScreen may display an “unrecognized app” warning when a file or publisher lacks reputation. This warning alone is not a named malware detection. Check the release source and SHA256 checksum.
+Distributed installers are currently unsigned. Windows SmartScreen may display an “unrecognized app” warning when a file or publisher lacks reputation. This warning alone is not a named malware detection. Check the release source and SHA256 checksum.
 
-Os instaladores de prévia estão sem assinatura digital. O SmartScreen pode mostrar “aplicativo não reconhecido” quando o arquivo ou publicador ainda não tem reputação. Esse aviso, sozinho, não é uma detecção específica de vírus. Confira a origem da release e seu checksum SHA256.
+Os instaladores distribuídos estão sem assinatura digital. O SmartScreen pode mostrar “aplicativo não reconhecido” quando o arquivo ou publicador ainda não tem reputação. Esse aviso, sozinho, não é uma detecção específica de vírus. Confira a origem da release e seu checksum SHA256.
 
 A publicly trusted signature identifies the publisher, but new signed files may still need reputation. See [Microsoft's documentation](https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/smartscreen-reputation).
 

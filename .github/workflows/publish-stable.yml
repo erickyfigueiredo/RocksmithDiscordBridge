@@ -1,0 +1,68 @@
+name: Publish stable release
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/publish-stable.yml']
+  workflow_dispatch:
+    inputs:
+      source_tag:
+        description: Tested preview tag
+        required: true
+        default: v0.3.2-preview.12
+      version:
+        description: Stable version (must match the preview version)
+        required: true
+        default: 0.3.2
+      expected_sha256:
+        description: Reviewed installer SHA256
+        required: true
+        default: 2b6c3bb2b18cc3bde86eb53e52e7a8a2cdca749c461dffe4492c2a61ad88d721
+permissions:
+  contents: write
+concurrency:
+  group: stable-release
+  cancel-in-progress: false
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      SOURCE_TAG: ${{ inputs.source_tag || 'v0.3.2-preview.12' }}
+      VERSION: ${{ inputs.version || '0.3.2' }}
+      EXPECTED_SHA256: ${{ inputs.expected_sha256 || '2b6c3bb2b18cc3bde86eb53e52e7a8a2cdca749c461dffe4492c2a61ad88d721' }}
+    steps:
+      - name: Download and verify tested installer
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_TAG" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-preview\.[0-9]+$ ]]
+          [[ "${BASH_REMATCH[1]}" == "$VERSION" ]]
+          [[ "$EXPECTED_SHA256" =~ ^[a-f0-9]{64}$ ]]
+          gh release view "$SOURCE_TAG" --json isDraft,isPrerelease --jq '(.isDraft == false) and (.isPrerelease == true)' | grep -qx true
+          mkdir release
+          gh release download "$SOURCE_TAG" --pattern 'RocksmithDiscordBridge-Setup-x64.exe' --pattern 'SHA256SUMS.txt' --dir release
+          cd release
+          printf '%s  RocksmithDiscordBridge-Setup-x64.exe\n' "$EXPECTED_SHA256" | sha256sum --check -
+          sha256sum --check SHA256SUMS.txt
+      - name: Publish as stable and latest
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="v${VERSION}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo 'This stable release already exists; refusing to overwrite it.'
+            exit 1
+          fi
+          cat > release/notes.md <<'NOTES'
+          Rocksmith Discord Bridge for Windows 10/11 x64.
+
+          - Guided guitar, headphones and audio test setup in English and Portuguese.
+          - RS_ASIO and Python runtime included; optional ASIO4ALL installation.
+          - Share the original Rocksmith 2014 window with sound in Discord.
+
+          Requires Steam Rocksmith 2014, Discord desktop and a compatible audio interface. The installer is unsigned and may show a Windows SmartScreen warning.
+
+          Português: configuração guiada de guitarra e fone, com teste de áudio. O instalador inclui RS_ASIO e Python, e oferece ASIO4ALL opcional. O instalador está sem assinatura digital e pode exibir um aviso do SmartScreen.
+          NOTES
+          gh release create "$tag" release/RocksmithDiscordBridge-Setup-x64.exe release/SHA256SUMS.txt --target "$GITHUB_SHA" --title "$tag" --latest --notes-file release/notes.md

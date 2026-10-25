@@ -2,7 +2,7 @@
 
 Stream **Rocksmith 2014 with ASIO audio in Discord**, using the original game window.
 
-[Português](README.pt-BR.md) · [Download Setup](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/releases) · [Dependencies](docs/dependencies.md)
+[Português](README.pt-BR.md) · [Download stable Setup](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/releases/latest/download/RocksmithDiscordBridge-Setup-x64.exe) · [Dependencies](docs/dependencies.md)
 
 ## Requirements
 
@@ -22,7 +22,7 @@ RS_ASIO, Python and the application libraries are included. **RSMods is optional
 
 Setup supports English and Portuguese. It preserves existing audio/video configuration and backs up game files before changing them. Reinstall in the same folder to update. Close the game before installing or uninstalling.
 
-The preview installer is **unsigned** and may show a Windows SmartScreen warning. See [Windows warnings](docs/signing.md#windows-warnings). Checksums are available with each release.
+The installer is **unsigned** and may show a Windows SmartScreen warning. See [Windows warnings](docs/signing.md#windows-warnings). Checksums are available with each release.
 
 ## How it works
 
