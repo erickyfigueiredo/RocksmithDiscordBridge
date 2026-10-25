@@ -1,4 +1,22 @@
 ﻿$ErrorActionPreference = 'Stop'
+if (-not ('RsBridge.TestPaths' -as [type])) {
+    Add-Type -TypeDefinition @'
+using System.Runtime.InteropServices;
+using System.Text;
+namespace RsBridge {
+    public static class TestPaths {
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern uint GetLongPathName(string path, StringBuilder result, uint size);
+        public static string Expand(string path) {
+            var buffer = new StringBuilder(32768);
+            if (GetLongPathName(path, buffer, (uint)buffer.Capacity) == 0)
+                throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+            return buffer.ToString();
+        }
+    }
+}
+'@
+}
 $taskPackage = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $taskFixture = Join-Path $env:TEMP ('rsbridge-install-test-' + [guid]::NewGuid().ToString('N'))
 $taskGame = Join-Path $taskFixture 'fake-game'
@@ -31,7 +49,7 @@ foreach ($taskExistingMarker in @($false,$true)) {
     $taskMarkerBytes = [IO.File]::ReadAllBytes((Join-Path $taskGame 'RSBridgePlayer.txt'))
     $taskExpectedPath = (Resolve-Path -LiteralPath (Join-Path $taskInstaller 'player\RocksmithStreamBridge.exe')).Path
     $taskDecodedPath = [Text.Encoding]::Unicode.GetString($taskMarkerBytes)
-    if ($taskDecodedPath -ine $taskExpectedPath) { throw "Caminho ou encoding do reprodutor incorreto. Esperado: $taskExpectedPath; recebido: $taskDecodedPath" }
+    if ([RsBridge.TestPaths]::Expand($taskDecodedPath) -ine [RsBridge.TestPaths]::Expand($taskExpectedPath)) { throw "Caminho ou encoding do reprodutor incorreto. Esperado: $taskExpectedPath; recebido: $taskDecodedPath" }
     $taskBackup = Get-ChildItem -LiteralPath (Join-Path $taskInstaller 'backups') -Directory | Where-Object { $_.FullName -notin $taskBeforeBackups } | Select-Object -First 1
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $taskInstaller 'Restore.ps1') -BackupDirectory $taskBackup.FullName
     if ($LASTEXITCODE -ne 0) { throw 'Restauração fictícia falhou.' }
