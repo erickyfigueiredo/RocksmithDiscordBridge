@@ -14,4 +14,4 @@ foreach ($taskFile in $taskFiles) {
     if ($LASTEXITCODE -ne 0) { throw "Signing failed: $taskFile" }
     Assert-BridgeSignature -Path $taskFile -CertificateThumbprint $taskSigning.Thumbprint
 }
-Write-Host 'Publisher signatures and timestamps verified. Package the ZIP next, then build the signed installer.'
+Write-Host 'Publisher signatures and timestamps verified. Build the signed installer next.'
