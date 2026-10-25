@@ -8,7 +8,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_FILES = (
-    'README.md', 'README.pt-BR.md', 'DEPENDENCIES.md', 'PRIVACY.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md',
+    'README.md', 'README.pt-BR.md', 'DEPENDENCIES.md', 'SIGNING.md', 'PRIVACY.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md',
     'Install.ps1', 'Restore.ps1', 'Instalar.cmd', 'Configurar-audio.cmd', 'tools/FindGame.ps1',
     'config/RS_ASIO.ini',
 )

@@ -14,12 +14,14 @@ The mod copies final game audio into a windowless player launched as a child of 
 - An available stereo Windows WASAPI output for the copied sound.
 - **Python and app libraries are already included.** You do not need Python, Node.js, OBS, Voicemeeter or developer tools.
 
-Read [DEPENDENCIES.md](DEPENDENCIES.md) for required software, bundled components and downloads. Version 0.3.0 is an experimental preview. End-to-end streaming has been confirmed on one Windows setup; wider hardware coverage needs testing.
+**RSMods is optional.** The app works without it. The required RS_ASIO support is already included in Setup.
+
+Read [DEPENDENCIES.md](DEPENDENCIES.md) for required software, bundled components and downloads. Version 0.3.1 is an experimental preview. End-to-end streaming has been confirmed on one Windows setup; wider hardware coverage needs testing.
 
 ## Graphical installation
 
 1. Download **RocksmithDiscordBridge-Setup-x64.exe** from Releases. Close Rocksmith and open Setup.exe.
-2. Choose **USB interface / not sure**, or your manufacturer's driver in **Advanced**. Review components and select the physical guitar input **1, 2…**.
+2. Choose **USB interface — guided setup**, or your manufacturer's driver in **Advanced**. Review components and select the physical guitar input **1, 2…**.
 3. Follow **Guitar → Headphones → Test**. For USB, open the ASIO4ALL panel and enable only your interface's input and output. Its device name appears there, not necessarily in the ASIO driver list.
 4. Choose your headphones, open the game and play a few notes. The wizard checks fresh audio packets and sound signal; confirm that you hear the game and guitar. Switch between English and Portuguese in the window.
 5. Open the game normally through Steam. In Discord, share **Rocksmith 2014 with sound**, at your desired resolution/frame rate.
@@ -29,6 +31,8 @@ The primary setup/configuration/uninstall flow never invokes PowerShell or CMD. 
 Setup requests administrator rights to update game files. It backs up originals and preserves existing ASIO/video settings. A first-time ASIO setup enables the two RS_ASIO audio settings without changing video. No game files, audio drivers or proprietary Microsoft runtime installers are redistributed inside the package; optional third-party installers are downloaded from official sources after selection.
 
 The portable ZIP is an alternative for advanced users with an existing working RS_ASIO setup. Its legacy scripts are separate from Setup.exe. The GitHub Source code ZIP contains source, not built executables.
+
+The current installer has no digital publisher signature. A Windows “unrecognized app” message is a SmartScreen reputation warning, not by itself a named malware detection. Check the download source and published checksums. See [signing and Windows warnings](SIGNING.md).
 
 ## Uninstall and local data
 

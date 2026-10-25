@@ -27,7 +27,9 @@ GitHub Actions also compiles the Inno Setup installer and tests actual installat
 
 `native/BridgeTap.h` copies the final game audio, after software volume, into a bounded shared-memory ring. ASIO never waits for a reader. `native/BridgePlayer.h` optionally launches one windowless player from the game, during output initialization rather than the callback. A UTF-16LE configuration file in the game's directory enables that launch. `app.py --audio-only --parent-pid PID` receives only that parent's audio and exits when the game closes. `--configure-output` selects the WASAPI output without opening the game.
 
-The existing diagnostic video UI remains available by running `app.py` without arguments, but is not used for direct game streaming. Avoid adding blocking operations, allocation or process creation to the ASIO callback.
+The diagnostic video UI remains available with `app.py --diagnostic-preview`. Running without arguments opens guided audio setup. Avoid adding blocking operations, allocation or process creation to the ASIO callback.
+
+Publisher signing is prepared as an optional build path; see [SIGNING.md](SIGNING.md). The normal CI preview remains unsigned until a real certificate/provider and validated publisher are configured.
 
 ## Reports
 

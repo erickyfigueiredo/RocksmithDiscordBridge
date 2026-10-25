@@ -7,15 +7,16 @@
 | Discord desktop | Required for streaming. Install from https://discord.com/download. / Necessário para transmitir; instalação separada. |
 | 32-bit ASIO driver | Required. Prefer the interface manufacturer's official driver. The wizard detects registered 32-bit drivers and offers ASIO4ALL as an optional fallback. / Prefira o driver oficial do fabricante. |
 | RS_ASIO 0.7.4 support | Included. The wizard can install missing support and create an initial driver/channel configuration. / Suporte incluído; configurações existentes preservadas. |
+| RSMods | Optional, not required or installed by the bridge. / Opcional; a ponte funciona sem ele e não o instala. |
 | Stereo Windows output | Required for copied audio; select with Configure audio. / Escolha a saída disponível em Configurar áudio. |
 | Python and app libraries | Included: Python, NumPy, sounddevice/PortAudio, Pillow, Windows Capture and their runtime libraries. / Já incluídos. |
 
 ## Optional downloads / Downloads opcionais
 
-- **ASIO4ALL 2.22:** choosing **USB interface / not sure** selects its download if it is missing. Review the checkbox on Prepare audio before installing. Downloaded from https://asio4all.org/downloads/ASIO4ALL_2_22.exe with a fixed SHA256 check. Its own graphical setup/license opens. The audio wizard then opens its device panel. Select only your interface's input/output and use 48 kHz. It is not needed when an appropriate manufacturer's ASIO driver is already installed.
+- **ASIO4ALL 2.22:** choosing **USB interface — guided setup** selects its download if it is missing. Review the checkbox on Prepare audio before installing. Downloaded from https://asio4all.org/downloads/ASIO4ALL_2_22.exe with a fixed SHA256 check. Its own graphical setup/license opens. The audio wizard then opens its device panel. Select only your interface's input/output and use 48 kHz. It is not needed when an appropriate manufacturer's ASIO driver is already installed.
 - **Microsoft Visual C++ v14 x86/x64:** optional repairs for game/third-party-driver dependencies. Our RS_ASIO DLL links the C++ runtime statically; the player bundles its runtime. These repairs are not claimed as universally required. The wizard uses version-pinned Microsoft URLs and SHA256 checks, with the standard Microsoft progress UI and no forced immediate reboot.
 
-Ao escolher **Interface USB / não sei**, o assistente marca o ASIO4ALL para instalação se ele estiver ausente. A tela Preparar áudio mostra o download antes de instalar. Os reparos Visual C++ ficam em **Avançado** e começam desmarcados. O suporte RS_ASIO já vem incluído. Drivers de fabricantes devem vir dos sites oficiais.
+Ao escolher **Interface USB — configuração guiada**, o assistente marca o ASIO4ALL para instalação se ele estiver ausente. A tela Preparar áudio mostra o download antes de instalar. Os reparos Visual C++ ficam em **Avançado** e começam desmarcados. O suporte RS_ASIO já vem incluído. Drivers de fabricantes devem vir dos sites oficiais.
 
 ## Interface USB versus ASIO driver
 

@@ -25,6 +25,8 @@ licenses/
 !.env.example
 *.pem
 *.key
+*.pfx
+*.p12
 .vs/
 *.user
 *.suo

@@ -14,12 +14,14 @@ O mod abre um reprodutor invisível como processo filho do Rocksmith. O Discord 
 - Saída estéreo WASAPI disponível para ouvir a cópia do áudio.
 - **Python e bibliotecas já incluídos.** Não precisa instalar Python, Node.js, OBS, Voicemeeter ou ferramentas de desenvolvimento.
 
-Leia [DEPENDENCIES.md](DEPENDENCIES.md) para conferir requisitos e downloads. A versão 0.3.0 é uma prévia experimental; outros equipamentos ainda precisam de testes.
+**RSMods é opcional.** O aplicativo funciona sem ele. O suporte necessário RS_ASIO já está incluído no Setup.
+
+Leia [DEPENDENCIES.md](DEPENDENCIES.md) para conferir requisitos e downloads. A versão 0.3.1 é uma prévia experimental; outros equipamentos ainda precisam de testes.
 
 ## Instalação gráfica
 
 1. Em Releases, baixe **RocksmithDiscordBridge-Setup-x64.exe**. Feche o jogo e abra o instalador.
-2. Escolha **Interface USB / não sei**, ou o driver do fabricante em **Avançado**. Confira os componentes e selecione a entrada **1, 2…** onde conectou a guitarra.
+2. Escolha **Interface USB — configuração guiada**, ou o driver do fabricante em **Avançado**. Confira os componentes e selecione a entrada **1, 2…** onde conectou a guitarra.
 3. Siga **Guitarra → Fone → Testar**. Na opção USB, abra o painel ASIO4ALL e ative só a entrada e a saída da sua interface. O nome dela aparece nesse painel, não necessariamente na lista de drivers.
 4. Escolha seu fone, abra o jogo e toque algumas notas. O assistente verifica se chegam novos blocos e sinal de áudio; confirme que ouve o jogo e a guitarra. Português e inglês podem ser trocados na própria janela.
 5. Abra o jogo normalmente pela Steam e compartilhe **Rocksmith 2014 com som** no Discord, na qualidade desejada.
@@ -29,6 +31,8 @@ O fluxo principal de instalação, configuração e desinstalação **não execu
 O instalador pede acesso de administrador e faz backup dos arquivos do jogo que alterar. Preserva configurações ASIO e vídeo existentes. Na primeira configuração ASIO, habilita os dois parâmetros de áudio necessários sem alterar o vídeo. Não inclui arquivos do jogo; instaladores de drivers/runtimes de terceiros são baixados de fontes oficiais apenas quando escolhidos.
 
 O ZIP portátil continua disponível para usuários avançados com RS_ASIO funcionando. Os scripts antigos dele não participam do Setup.exe. O botão Source code do GitHub baixa o código, não o aplicativo pronto.
+
+O instalador atual ainda não tem assinatura digital de publicador. O aviso de “aplicativo não reconhecido” do Windows é de reputação do SmartScreen. Isso, sozinho, não é uma detecção específica de vírus. Confira a origem e os checksums publicados. Veja [assinatura e avisos do Windows](SIGNING.md).
 
 ## Desinstalar e dados locais
 

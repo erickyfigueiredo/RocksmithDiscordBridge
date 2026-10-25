@@ -1,5 +1,5 @@
 #ifndef AppVersion
-#define AppVersion "0.3.0"
+#define AppVersion "0.3.1"
 #endif
 [Setup]
 AppId={{341F8138-1E9E-4EAD-8253-DC4628AFC65B}
@@ -22,6 +22,10 @@ LicenseFile=..\LICENSE
 SetupLogging=yes
 CloseApplications=no
 UninstallDisplayIcon={app}\player\RocksmithStreamBridge.exe
+#ifdef SigningEnabled
+SignTool=BridgeSign
+SignedUninstaller=yes
+#endif
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -29,41 +33,41 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 
 [CustomMessages]
 english.ConnectionTitle=Connect your guitar
-english.ConnectionDescription=Which audio setup do you use?
-english.ConnectionPrompt=Your USB interface is selected inside its driver panel, after installation.
-english.USBInterface=USB interface / not sure — use ASIO4ALL (download if needed)
-english.Manufacturer=I have my interface manufacturer's ASIO driver — advanced
+english.ConnectionDescription=How do you connect your guitar to your computer?
+english.ConnectionPrompt=We'll help you set up the audio.
+english.USBInterface=USB interface — guided setup
+english.Manufacturer=Manufacturer's driver — advanced
 english.Advanced=Show advanced repairs
 english.RepairsTitle=Advanced repairs
 english.RepairsDescription=Only select these if a game or driver dependency needs repair.
-english.USBPrompt=ASIO4ALL is selected. You will choose your USB interface in its panel after installation.
+english.USBPrompt=Check the number beside your interface's connector and select the matching input below. You will choose the USB interface after installation.
 english.InvalidInput=Enter the physical input number, from 1 to 64.
 brazilianportuguese.ConnectionTitle=Conectar a guitarra
-brazilianportuguese.ConnectionDescription=Como você usa o áudio?
-brazilianportuguese.ConnectionPrompt=A interface USB será escolhida no painel do driver, depois da instalação.
-brazilianportuguese.USBInterface=Interface USB / não sei — usar ASIO4ALL (baixar se necessário)
-brazilianportuguese.Manufacturer=Tenho o driver ASIO do fabricante da interface — avançado
+brazilianportuguese.ConnectionDescription=Como você conecta sua guitarra ao computador?
+brazilianportuguese.ConnectionPrompt=Vamos ajudar a preparar o áudio.
+brazilianportuguese.USBInterface=Interface USB — configuração guiada
+brazilianportuguese.Manufacturer=Driver do fabricante — avançado
 brazilianportuguese.Advanced=Mostrar reparos avançados
 brazilianportuguese.RepairsTitle=Reparos avançados
 brazilianportuguese.RepairsDescription=Marque só se precisar reparar uma dependência do jogo ou driver.
-brazilianportuguese.USBPrompt=ASIO4ALL selecionado. Depois de instalar, escolha sua interface USB no painel dele.
+brazilianportuguese.USBPrompt=Confira o número ao lado do conector da sua interface e escolha a mesma entrada abaixo. Você escolherá a interface USB depois da instalação.
 brazilianportuguese.InvalidInput=Digite o número da entrada da interface, de 1 a 64.
 english.GameTitle=Rocksmith 2014 folder
-english.GameDescription=Choose the folder containing Rocksmith2014.exe.
-english.GamePrompt=Run the game once before installing. Its configuration file must exist.
+english.GameDescription=Check where Rocksmith is installed before we continue.
+english.GamePrompt=Open Rocksmith once so it can create its settings, then close it before installing.
 english.PrereqTitle=Prepare audio
-english.PrereqDescription=These are the components for your selected setup.
-english.PrereqPrompt=Keep Steam and Discord installed. Python is already included.
+english.PrereqDescription=We'll install the selected components to prepare the game's audio.
+english.PrereqPrompt=Game audio support and Python are included. If selected, ASIO4ALL will be downloaded from its official source.
 english.BaseASIO=Game audio support (included)
 english.ASIO4ALL=ASIO4ALL 2.22 (download and open its installer)
 english.VCx86=Download Microsoft Visual C++ v14 x86 runtime (optional repair for game/driver dependencies)
 english.VCx64=Download Microsoft Visual C++ v14 x64 runtime (optional repair; Python runtime is already included)
 english.DriverTitle=Guitar input
-english.DriverDescription=Which input on your interface is your guitar plugged into?
-english.DriverPrompt=Select your manufacturer's ASIO driver. For a USB interface without one, go back and choose ASIO4ALL.
+english.DriverDescription=Let's choose the input where your guitar is connected.
+english.DriverPrompt=Check the number beside your interface's connector and select the matching input below. Also select your manufacturer's ASIO driver.
 english.Channel=Guitar plugged into input:
 english.Configure=Configure guitar, headphones and test audio
-english.Finish=One more step: configure your guitar and headphones, then test the audio.
+english.Finish=Installation is complete. Let's choose your interface and headphones, then check that the sound works.
 english.InvalidGame=Select the game folder and run Rocksmith once first (Rocksmith2014.exe and Rocksmith.ini are required).
 english.MissingBase=RS_ASIO is missing. Select installation of its included support files.
 english.MissingDriver=Choose an existing 32-bit ASIO driver, or select ASIO4ALL installation. You can also install your manufacturer's driver separately and reopen this wizard.
@@ -72,21 +76,21 @@ english.Downloads=Downloading selected dependencies
 english.InstallFailure=Game integration could not be installed. The previous game files were restored. Details:
 english.RestoreFailure=The game integration could not be restored. Uninstallation was stopped. Details:
 brazilianportuguese.GameTitle=Pasta do Rocksmith 2014
-brazilianportuguese.GameDescription=Escolha a pasta que contém Rocksmith2014.exe.
-brazilianportuguese.GamePrompt=Abra o jogo uma vez antes de instalar. O arquivo de configuração precisa existir.
+brazilianportuguese.GameDescription=Confira onde o Rocksmith está instalado antes de continuarmos.
+brazilianportuguese.GamePrompt=Abra o Rocksmith uma vez para ele criar suas configurações. Depois, feche o jogo antes de instalar.
 brazilianportuguese.PrereqTitle=Preparar áudio
-brazilianportuguese.PrereqDescription=Estes são os componentes para a opção escolhida.
-brazilianportuguese.PrereqPrompt=Mantenha Steam e Discord instalados. O Python já está incluído.
+brazilianportuguese.PrereqDescription=Vamos instalar os itens marcados abaixo para preparar o áudio do jogo.
+brazilianportuguese.PrereqPrompt=O suporte ao jogo e o Python já estão incluídos. Se marcado, o ASIO4ALL será baixado da fonte oficial.
 brazilianportuguese.BaseASIO=Suporte de áudio do jogo (incluído)
 brazilianportuguese.ASIO4ALL=ASIO4ALL 2.22 (baixar e abrir o instalador dele)
 brazilianportuguese.VCx86=Baixar runtime Microsoft Visual C++ v14 x86 (reparo opcional para dependências do jogo/driver)
 brazilianportuguese.VCx64=Baixar runtime Microsoft Visual C++ v14 x64 (reparo opcional; runtime Python já incluído)
 brazilianportuguese.DriverTitle=Entrada da guitarra
-brazilianportuguese.DriverDescription=Em qual entrada da interface a guitarra está conectada?
-brazilianportuguese.DriverPrompt=Escolha o driver ASIO do fabricante. Se a interface USB não tem um, volte e escolha ASIO4ALL.
+brazilianportuguese.DriverDescription=Vamos escolher a entrada onde sua guitarra está conectada.
+brazilianportuguese.DriverPrompt=Confira o número ao lado do conector da sua interface e escolha a mesma entrada abaixo. Selecione também o driver ASIO do fabricante.
 brazilianportuguese.Channel=Guitarra conectada na entrada:
 brazilianportuguese.Configure=Configurar guitarra, fone e testar áudio
-brazilianportuguese.Finish=Falta um passo: configure a guitarra e o fone, depois teste o áudio.
+brazilianportuguese.Finish=A instalação foi concluída. Agora vamos escolher sua interface e seu fone, e conferir se o som funciona.
 brazilianportuguese.InvalidGame=Selecione a pasta do jogo e abra o Rocksmith uma vez antes (Rocksmith2014.exe e Rocksmith.ini são necessários).
 brazilianportuguese.MissingBase=O RS_ASIO está ausente. Marque a instalação dos arquivos de suporte incluídos.
 brazilianportuguese.MissingDriver=Escolha um driver ASIO de 32 bits existente ou marque a instalação do ASIO4ALL. Você também pode instalar o driver do fabricante e reabrir este assistente.
@@ -104,6 +108,7 @@ Source: "..\config\RS_ASIO.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\README.pt-BR.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\DEPENDENCIES.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\SIGNING.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\PRIVACY.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\THIRD_PARTY_NOTICES.md"; DestDir: "{app}"; Flags: ignoreversion

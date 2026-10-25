@@ -25,6 +25,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./tests/FindGame.Tests.ps1
           ./tests/Install.Tests.ps1
+          ./tests/Signing.Tests.ps1
       - name: Build x86 RS_ASIO and native tests
         shell: pwsh
         run: ./Build.ps1
