@@ -20,7 +20,9 @@ from bridge.pcm import decode
 from bridge.winprocess import game_pids
 
 ROOT = Path(sys.executable).resolve().parent if getattr(sys, 'frozen', False) else Path(__file__).resolve().parent
-logging.basicConfig(filename=ROOT / 'bridge.log', level=logging.INFO,
+DATA_DIR = (Path(os.environ['LOCALAPPDATA']) / 'RocksmithDiscordBridge') if getattr(sys, 'frozen', False) else ROOT
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+logging.basicConfig(filename=DATA_DIR / 'bridge.log', level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(message)s', encoding='utf-8')
 
 
@@ -33,7 +35,7 @@ def output_devices():
 def save_output(name):
     if name not in [device_name for _, device_name in output_devices()]:
         raise ValueError(f'Saída WASAPI indisponível: {name}')
-    (ROOT / 'settings.json').write_text(json.dumps({'output': name}, ensure_ascii=False), encoding='utf-8')
+    (DATA_DIR / 'settings.json').write_text(json.dumps({'output': name}, ensure_ascii=False), encoding='utf-8')
 
 
 def configure_output():
@@ -51,7 +53,7 @@ def configure_output():
     box.pack(fill='x', pady=6)
     preferred = ''
     try:
-        preferred = json.loads((ROOT / 'settings.json').read_text(encoding='utf-8')).get('output', '')
+        preferred = json.loads((DATA_DIR / 'settings.json').read_text(encoding='utf-8')).get('output', '')
     except (OSError, ValueError):
         pass
     if names:
@@ -112,7 +114,7 @@ class App:
         self.device_box.pack(fill='x', pady=5)
         preferred = ''
         try:
-            preferred = json.loads((ROOT / 'settings.json').read_text(encoding='utf-8')).get('output', '')
+            preferred = json.loads((DATA_DIR / 'settings.json').read_text(encoding='utf-8')).get('output', '')
         except (OSError, ValueError):
             pass
         if self.devices:
@@ -203,7 +205,7 @@ class App:
             messagebox.showerror('Saída indisponível', 'Conecte uma segunda saída de áudio e reabra o aplicativo.')
             return
         device, name = self.devices[selected]
-        (ROOT / 'settings.json').write_text(json.dumps({'output': name}, ensure_ascii=False), encoding='utf-8')
+        (DATA_DIR / 'settings.json').write_text(json.dumps({'output': name}, ensure_ascii=False), encoding='utf-8')
         self.stop_event.clear()
         self.device_box.configure(state='disabled')
         self.start_button.configure(state='disabled')
@@ -383,7 +385,7 @@ class App:
         if now - self.last_diagnostic >= 1:
             self.last_diagnostic = now
             try:
-                (ROOT / 'diagnostics.json').write_text(json.dumps({
+                (DATA_DIR / 'diagnostics.json').write_text(json.dumps({
                     'pid': os.getpid(), 'audio_connected': self.audio_connected,
                     'audio_blocks': self.audio_blocks, 'audio_peak': self.audio_peak,
                     'video_frames': self.video_frames, 'status': self.status.get(),
@@ -406,7 +408,7 @@ class App:
 def run_audio_only():
     """A windowless child of Rocksmith; never create a Tk window or take focus."""
     devices = output_devices()
-    preferred = json.loads((ROOT / 'settings.json').read_text(encoding='utf-8')).get('output', '')
+    preferred = json.loads((DATA_DIR / 'settings.json').read_text(encoding='utf-8')).get('output', '')
     selected = next(((device, name) for device, name in devices if name == preferred), None)
     if selected is None:
         raise RuntimeError(f'Saída de áudio indisponível: {preferred}')
@@ -434,7 +436,7 @@ def run_audio_only():
                 done = True
         except queue.Empty:
             pass
-        (ROOT / 'diagnostics.json').write_text(json.dumps({
+        (DATA_DIR / 'diagnostics.json').write_text(json.dumps({
             'pid': os.getpid(), 'parent_pid': runner.parent_pid, 'audio_only': True,
             'audio_connected': connected, 'audio_blocks': runner.audio_blocks,
             'audio_peak': runner.audio_peak, 'status': status, 'output': selected[1],
@@ -444,7 +446,10 @@ def run_audio_only():
 if __name__ == '__main__':
     if sys.platform != 'win32' or platform.machine().lower() not in ('amd64', 'x86_64'):
         raise SystemExit('Use Python x64 no Windows x64.')
-    if '--configure-output' in sys.argv:
+    if '--setup-install' in sys.argv or '--setup-uninstall' in sys.argv:
+        from bridge.installation import main
+        raise SystemExit(main(sys.argv[1:]))
+    elif '--configure-output' in sys.argv:
         raise SystemExit(configure_output())
     elif '--set-output' in sys.argv:
         save_output(sys.argv[sys.argv.index('--set-output') + 1])

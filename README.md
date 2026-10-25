@@ -1,77 +1,55 @@
 # Rocksmith Discord Bridge
 
-**Share Rocksmith 2014 directly in Discord, with its ASIO audio, while keeping the original game image.**
+Share **Rocksmith 2014 itself in Discord with its ASIO audio**, preserving the game's original image.
 
-[Português brasileiro](README.pt-BR.md) · [Downloads / Releases](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/releases) · [Build status](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/actions)
+[Português](README.pt-BR.md) · [Download installer](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/releases) · [Dependencies](DEPENDENCIES.md) · [Builds/tests](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/actions)
 
-RS_ASIO normally bypasses the Windows audio path used by Discord. This mod copies the game's final output to a windowless audio player launched **as a child of Rocksmith**. Discord documents capture of the shared process and its children, so you can share **Rocksmith 2014 itself**, with sound. Video never goes through the Python player: the original resolution and Discord's normal capture controls remain available.
+The mod copies final game audio into a windowless player launched as a child of Rocksmith. Discord captures audio from the shared app and its child processes. Video is captured directly from the game, without a reduced preview or always-on-top window. See [Discord's process-capture description](https://discord.com/blog/how-it-all-goes-live-an-overview-of-discords-streaming-technology).
 
-```mermaid
-flowchart LR
-    Guitar[Guitar / audio interface] --> Game[Rocksmith 2014 + RS_ASIO]
-    Game --> ASIO[Original ASIO output]
-    Game -->|independent audio copy| Player[Windowless child player]
-    Player --> Headphones[Chosen Windows audio output]
-    Game -->|original game image| Discord[Discord screen share]
-    Player -->|child-process audio capture| Discord
-```
+## Requirements — read before installing
 
-## Status and requirements
+- **Windows 10/11 x64**, Steam's Rocksmith 2014 Remastered and Discord desktop. Run the game once before installing. The wizard does not purchase/install the game or Discord.
+- A **32-bit ASIO driver** for your guitar interface. Prefer its manufacturer's driver. The wizard detects registered drivers and offers **optional ASIO4ALL installation** as a fallback.
+- **RS_ASIO 0.7.4:** its support files are included. The wizard can install missing files and create an initial driver/channel configuration; it preserves existing configuration.
+- An available stereo Windows WASAPI output for the copied sound.
+- **Python and app libraries are already included.** You do not need Python, Node.js, OBS, Voicemeeter or developer tools.
 
-Version 0.1.0 is an **experimental Windows preview**. End-to-end Discord streaming has been confirmed on one Windows setup. The app lets each user select their output and preserves their existing ASIO configuration; wider hardware compatibility still needs testing.
+Read [DEPENDENCIES.md](DEPENDENCIES.md) for required software, bundled components, optional downloads and hardware configuration. Version 0.2.0 is an experimental preview. End-to-end streaming has been confirmed on one Windows setup; wider hardware coverage needs testing.
 
-- Windows 10/11 x64 and the Discord desktop app.
-- Rocksmith 2014 Remastered, already working with **RS_ASIO 0.7.4** and a configured ASIO driver. This is an add-on for an existing RS_ASIO setup.
-- An available stereo Windows WASAPI output for the copied audio.
-- The ZIP from a Release includes Python and its dependencies. End users do not need Python, Node, OBS or Voicemeeter.
+## Graphical installation
 
-The copy uses a requested 60 ms playback buffer. If you listen through this copy, it may introduce noticeable playing latency; total latency has not been measured. The original ASIO path does not wait for the player. If you already monitor your interface directly, choose a separate output for the streaming copy to avoid hearing the game twice.
+1. Download **RocksmithDiscordBridge-Setup-x64.exe** from Releases. Close Rocksmith and open Setup.exe.
+2. Follow the **Inno Setup** wizard: select the game folder, review detected dependencies and explicitly choose any optional downloads. No third-party download is checked automatically.
+3. If RS_ASIO is absent, select its included support files, choose your 32-bit ASIO driver and the zero-based guitar input channel. Check devices, channels and **48 kHz** in your driver's control panel afterward.
+4. Finish with **Configure audio**, choosing where to hear the copied sound. This shortcut is also available in the Start menu and runs as the original non-elevated user.
+5. Open the game normally through Steam. In Discord, share **Rocksmith 2014 with sound**, at your desired resolution/frame rate.
 
-## Install and use
+The primary setup/configuration/uninstall flow never invokes PowerShell or CMD. ASIO4ALL opens its own graphical setup/license. Optional Microsoft runtime repairs show their normal progress UI. Dependency downloads use fixed SHA256 checks. If a dependency requests a restart, the wizard reports it without forcing an immediate reboot.
 
-1. Download `RocksmithDiscordBridge-Windows-x64.zip` from **Releases**. The GitHub “Source code” ZIP does not contain the built app.
-2. Extract the **entire** ZIP to a permanent, user-writable folder, such as Documents. Do not move it after installation.
-3. Close Rocksmith. Run `Instalar.cmd`. It finds Steam libraries automatically or asks for the game's folder, then lets you choose your audio output. If writing to the game's directory is denied, run the installer as administrator.
-4. Open Rocksmith normally through Steam. The mod starts the windowless player automatically.
-5. In Discord, share **Rocksmith 2014**, with sound enabled. Choose your desired resolution and frame rate in Discord. Do not share the diagnostic bridge window.
+Setup requests administrator rights to update game files. It backs up originals and preserves existing ASIO/video settings. A first-time ASIO setup enables the two RS_ASIO audio settings without changing video. No game files, audio drivers or proprietary Microsoft runtime installers are redistributed inside the package; optional third-party installers are downloaded from official sources after selection.
 
-The installer replaces `RS_ASIO.dll` and writes `RSBridgePlayer.txt`. It backs up the existing DLL and configuration and **preserves your ASIO input/output channels, buffers and video settings**. It does not install drivers or include any game files. Releases are currently unsigned.
+The portable ZIP is an alternative for advanced users with an existing working RS_ASIO setup. Its legacy scripts are separate from Setup.exe. The GitHub Source code ZIP contains source, not built executables.
 
-For a different Steam library:
+## Uninstall and local data
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -GameDirectory 'D:\SteamLibrary\steamapps\common\Rocksmith2014'
-```
+Close the game and uninstall **Rocksmith Discord Bridge** through Windows Settings. The uninstaller restores backed-up game files. Files modified afterward by the user are retained; backups remain under ProgramData. Shared ASIO drivers and Microsoft runtimes are not removed.
 
-Use `Configurar-audio.cmd` with the game closed to change the selected Windows output. Start the game from Steam after closing an elevated installer; do not start Steam as administrator just for this mod.
+Settings and diagnostics live in `%LOCALAPPDATA%\RocksmithDiscordBridge`. Game-integration backups/state live in `%PROGRAMDATA%\RocksmithDiscordBridge`. The app does not upload them. See [PRIVACY.md](PRIVACY.md).
 
-## Restore
+For an older portable-script installation, use its Restore.ps1 with the backup folder printed by that script.
 
-Close the game and restore the backup printed by the installer:
+## Limits and troubleshooting
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Restore.ps1 -BackupDirectory '.\backups\YOUR-BACKUP-FOLDER'
-```
+- The copied audio requests a 60 ms playback buffer. Listening through it can add noticeable playing latency; total latency has not been measured. The original ASIO output does not wait for the player. Avoid hearing both paths at once.
+- An output opened exclusively by an ASIO driver may not be available for shared WASAPI playback. Choose another output if necessary.
+- For no copied sound, close the game, use Configure audio, then reopen it. Check the selected device and local bridge.log.
+- Share the **original game**, not the diagnostic player window. A minimized game can stop rendering/producing audio.
+- Viewer quality still depends on Discord's selected resolution/frame rate, account features, encoding and connection.
+- The tap supports stereo 48 kHz PCM16/24/32 and float32. Other formats are rejected.
+- This is an unsigned experimental community mod, unaffiliated with Ubisoft or Discord. Compatibility with other game/RS_ASIO patches is not guaranteed.
 
-This restores the previous DLL/configuration and restores or removes the launcher configuration as appropriate. Keep the backup until you have verified your setup.
+## Source, builds and credits
 
-## Troubleshooting and limits
+The repository contains the source, installer script, tests and CI; binary downloads are published separately in Releases. See [CONTRIBUTING.md](CONTRIBUTING.md) to build. CI compiles and tests the DLL/player, builds Setup.exe and tests actual installation/uninstallation against an isolated game fixture.
 
-- **No copied audio:** check the chosen device with `Configurar-audio.cmd`, then reopen the game. The player must remain at the path saved during installation. Re-run the installer after moving the package.
-- **Device already in use:** a device opened exclusively by ASIO may not also be available to WASAPI. Choose another output or use the interface's direct monitoring for playing.
-- **Audio doubled:** stop any manually opened bridge and avoid monitoring the same game through both the interface and the copied output.
-- **Stream paused after Alt+Tab:** share the original game. A game that minimizes or stops rendering may stop producing video/audio; keep it visible while playing, or use its windowed mode.
-- **Low viewer quality:** video comes directly from the game. Received quality still depends on Discord's selected resolution/frame rate, account features, connection and encoding.
-- Local diagnostics are in `player/diagnostics.json` and `player/bridge.log`. They are not uploaded by the app.
-- Stereo, 48 kHz PCM16/24/32 and float32 are supported by the tap. Other formats are rejected.
-- This is a community mod, with no Ubisoft or Discord affiliation. Compatibility with other RS_ASIO patches is not guaranteed.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for build/test instructions, architecture and useful bug-report details.
-
-See [PRIVACY.md](PRIVACY.md) for local data and the contents of the source repository and release packages.
-
-## Credits and licenses
-
-New code: [MIT](LICENSE). Based on [RS_ASIO](https://github.com/mdias/rs_asio), copyright Micael Dias, also MIT. Bundled components and license texts are described in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
-Technical reference: [Discord's description of process and child-process audio capture](https://discord.com/blog/how-it-all-goes-live-an-overview-of-discords-streaming-technology).
+New code: [MIT](LICENSE). RS_ASIO: [mdias/rs_asio](https://github.com/mdias/rs_asio), MIT, Micael Dias. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for bundled components.

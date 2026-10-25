@@ -1,49 +1,45 @@
 # Rocksmith Discord Bridge
 
-Compartilhe **o próprio Rocksmith 2014 no Discord com o áudio ASIO**, preservando a imagem original do jogo.
+Compartilhe **o próprio Rocksmith 2014 no Discord com áudio ASIO**, mantendo a imagem original do jogo.
 
-[English](README.md) · [Baixar / Releases](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/releases)
+[English](README.md) · [Baixar instalador](https://github.com/erickyfigueiredo/RocksmithDiscordBridge/releases) · [Dependências](DEPENDENCIES.md)
 
-O mod copia o áudio final do jogo e abre um reprodutor invisível como processo filho do Rocksmith. O Discord captura o áudio do aplicativo compartilhado e dos filhos dele. A imagem não passa pela prévia Python, e não precisa deixar uma janelinha sobre o jogo.
+O mod abre um reprodutor invisível como processo filho do Rocksmith. O Discord captura o áudio desse processo junto do jogo. A imagem não passa pela prévia Python, e não precisa deixar uma janelinha sobre a tela.
 
-## Requisitos
+## Requisitos — leia antes de instalar
 
-- Windows 10/11 x64 e Discord para desktop.
-- Rocksmith 2014 Remastered já funcionando com **RS_ASIO 0.7.4** e seu driver ASIO configurado.
-- Uma saída estéreo WASAPI disponível para reproduzir a cópia do áudio.
+- **Windows 10/11 x64**, Rocksmith 2014 Remastered da Steam e Discord desktop. Abra o jogo uma vez antes. O assistente não compra nem instala o jogo ou o Discord.
+- **Driver ASIO de 32 bits** para a interface da guitarra. Prefira o do fabricante. O assistente detecta drivers e oferece **ASIO4ALL opcional** como alternativa.
+- **RS_ASIO 0.7.4:** os arquivos de suporte estão incluídos. O assistente pode instalar o que falta e criar uma configuração inicial, preservando configurações existentes.
+- Saída estéreo WASAPI disponível para ouvir a cópia do áudio.
+- **Python e bibliotecas já incluídos.** Não precisa instalar Python, Node.js, OBS, Voicemeeter ou ferramentas de desenvolvimento.
 
-Prévia experimental 0.1.0: a transmissão foi confirmada em uma configuração Windows. Cada pessoa escolhe a própria saída e mantém sua configuração ASIO; a compatibilidade com outros equipamentos ainda precisa de testes. O ZIP pronto inclui Python: não precisa instalar Python, Node, OBS ou Voicemeeter para usar.
+Leia [DEPENDENCIES.md](DEPENDENCIES.md) para conferir requisitos, componentes incluídos e downloads opcionais. A versão 0.2.0 é uma prévia experimental; outros equipamentos ainda precisam de testes.
 
-## Instalar
+## Instalação gráfica
 
-1. Em **Releases**, baixe `RocksmithDiscordBridge-Windows-x64.zip`. O botão “Source code” baixa apenas o código.
-2. Extraia **todo o ZIP** para uma pasta permanente onde você possa gravar, por exemplo em Documentos. Não mova essa pasta depois de instalar.
-3. Feche o Rocksmith e execute `Instalar.cmd`. Ele procura as bibliotecas Steam automaticamente ou pede a pasta do jogo; em seguida você escolhe onde ouvir o áudio. Se houver acesso negado na pasta do jogo, execute o instalador como administrador.
-4. Abra o jogo normalmente pela Steam. O reprodutor invisível será aberto pelo mod.
-5. No Discord, compartilhe **Rocksmith 2014**, com som ligado. Escolha a resolução e a taxa de quadros desejadas no Discord.
+1. Em Releases, baixe **RocksmithDiscordBridge-Setup-x64.exe**. Feche o jogo e abra o instalador.
+2. Siga o assistente **Inno Setup**: escolha a pasta do jogo, confira as dependências detectadas e marque apenas os downloads opcionais que desejar. Nenhum download de terceiros vem marcado automaticamente.
+3. Se faltar RS_ASIO, escolha os arquivos de suporte incluídos, o driver ASIO de 32 bits e o canal da guitarra, começando em zero. Depois confira dispositivos, canais e **48 kHz** no painel do driver.
+4. Ao concluir, escolha **Configurar áudio** para selecionar onde ouvir a cópia do jogo. Esse atalho também fica no menu Iniciar e funciona como seu usuário normal.
+5. Abra o jogo normalmente pela Steam e compartilhe **Rocksmith 2014 com som** no Discord, na qualidade desejada.
 
-O instalador faz backup da DLL e das configurações anteriores. Ele troca `RS_ASIO.dll` e escreve `RSBridgePlayer.txt`, preservando canais de entrada/saída, buffers e configurações de vídeo. Não instala drivers nem inclui arquivos do jogo.
+O fluxo principal de instalação, configuração e desinstalação **não executa PowerShell nem CMD**. O ASIO4ALL abre o instalador gráfico/licença próprio. O reparo opcional do Visual C++ mostra o progresso normal da Microsoft. Os downloads têm SHA256 fixo verificado. O assistente avisa caso uma dependência peça reinicialização.
 
-Para outra biblioteca Steam:
+O instalador pede acesso de administrador e faz backup dos arquivos do jogo que alterar. Preserva configurações ASIO e vídeo existentes. Na primeira configuração ASIO, habilita os dois parâmetros de áudio necessários sem alterar o vídeo. Não inclui arquivos do jogo; instaladores de drivers/runtimes de terceiros são baixados de fontes oficiais apenas quando escolhidos.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -GameDirectory 'D:\SteamLibrary\steamapps\common\Rocksmith2014'
-```
+O ZIP portátil continua disponível para usuários avançados com RS_ASIO funcionando. Os scripts antigos dele não participam do Setup.exe. O botão Source code do GitHub baixa o código, não o aplicativo pronto.
 
-Para mudar o fone, feche o jogo, execute `Configurar-audio.cmd` e abra o jogo de novo. Não abra outra ponte manualmente junto do reprodutor automático, pois isso pode duplicar o áudio.
+## Desinstalar e dados locais
+
+Feche o jogo e desinstale **Rocksmith Discord Bridge** nas Configurações do Windows. Os arquivos anteriores são restaurados. Alterações feitas depois pelo usuário são preservadas, e os backups continuam em ProgramData. Drivers e runtimes compartilhados não são removidos.
+
+Configurações e diagnósticos: `%LOCALAPPDATA%\RocksmithDiscordBridge`. Estado da instalação e backups: `%PROGRAMDATA%\RocksmithDiscordBridge`. O aplicativo não envia esses dados. Veja [PRIVACY.md](PRIVACY.md).
+
+Para instalações antigas pelo script portátil, use o Restore.ps1 e o backup indicados por ele.
 
 ## Atraso e qualidade
 
-A cópia usa um buffer solicitado de 60 ms; quem ouve por ela pode perceber atraso ao tocar. A latência total não foi medida. A saída ASIO original não espera pelo reprodutor. Se você já ouve diretamente pela interface, use outra saída para a cópia da transmissão e evite ouvir o jogo duas vezes.
+A cópia usa um buffer solicitado de 60 ms e pode adicionar atraso ao tocar; a latência total não foi medida. A saída ASIO original não espera pela cópia. Evite ouvir as duas ao mesmo tempo.
 
-A imagem vem diretamente do jogo. A qualidade que chega a quem assiste depende também das opções da conta Discord, resolução/fps escolhidos, conexão e codificação. Se o jogo for minimizado ou parar de renderizar, a captura pode pausar; mantenha-o visível enquanto joga ou use o modo janela dele.
-
-## Restaurar
-
-Com o jogo fechado, use a pasta de backup informada pelo instalador:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\Restore.ps1 -BackupDirectory '.\backups\PASTA-DO-SEU-BACKUP'
-```
-
-O reprodutor grava diagnósticos locais em `player/diagnostics.json` e `player/bridge.log`. O aplicativo não envia esses arquivos. O pacote é comunitário, experimental e ainda não é assinado digitalmente. Leia os limites e instruções de compilação no [README em inglês](README.md).
+A imagem vem diretamente do jogo. A qualidade recebida depende também das opções da conta Discord, resolução/fps escolhidos, conexão e codificação. Se o jogo minimizar ou parar de renderizar, a captura pode pausar. Leia os limites e instruções de compilação no [README em inglês](README.md).

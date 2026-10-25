@@ -1,8 +1,8 @@
 # Privacy and release contents
 
-The application does not implement telemetry, analytics, log uploads or a network service. It reads the local game process and its audio shared memory, then plays that audio on the Windows device selected by the user. Steam and Discord are separate applications with their own behavior and policies.
+The player does not implement telemetry, analytics, log uploads or a network service. The graphical installer downloads third-party prerequisite installers only when the user selects them, from official sources with fixed SHA256 verification. It reads the local game process and its audio shared memory, then plays that audio on the Windows device selected by the user. Steam and Discord are separate applications with their own behavior and policies.
 
-Local settings and diagnostics can contain an audio-device name, process IDs, counters and file paths. Backups contain the installation's original DLL/configuration and its local game path. These files stay on the machine. They are excluded from source control and from the release ZIP.
+Per-user settings and diagnostics live under LocalAppData; integration backups/state live under ProgramData. Local settings and diagnostics can contain an audio-device name, process IDs, counters and file paths. Backups contain the installation's original DLL/configuration and its local game path. These files stay on the machine. They are excluded from source control and from the release ZIP.
 
 The repository contains source code, synthetic test fixtures, upstream MIT-licensed fixtures, build/test automation, documentation and license notices. It does not contain game files, music, local user configuration, machine inventories, credentials, logs or backups. References to the repository owner in documentation links identify this public GitHub project, not a Windows account.
 

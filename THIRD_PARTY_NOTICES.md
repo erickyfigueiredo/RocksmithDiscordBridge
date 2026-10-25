@@ -49,3 +49,8 @@ The Windows distribution includes license texts under `licenses/`, in addition t
 | PyInstaller bootloader | GPL-2.0-or-later with the distribution exception stated in its license | https://pyinstaller.org/ |
 
 PyInstaller is a build tool; its bootloader exception permits distributing bundled applications under their own licenses. Read its bundled COPYING text for the actual terms. Microsoft runtime components, if included by the bundler, remain subject to their respective redistribution terms.
+
+
+## Graphical installer and optional prerequisite downloads
+
+The graphical installer is built with Inno Setup (https://jrsoftware.org/). Its compiler license text is included under licenses/ when available at build time. ASIO4ALL and Microsoft runtime installers are not redistributed in the package: selected optional installers are downloaded from their official sources, hash-checked and opened under their own terms.

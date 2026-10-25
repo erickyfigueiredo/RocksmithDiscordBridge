@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_FILES = (
     'README.md', 'README.pt-BR.md', 'PRIVACY.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md',
     'Install.ps1', 'Restore.ps1', 'Instalar.cmd', 'Configurar-audio.cmd', 'tools/FindGame.ps1',
+    'config/RS_ASIO.ini',
 )
 PRIVATE_NAMES = {'settings.json', 'diagnostics.json', 'bridge.log', 'RSBridgePlayer.txt'}
 
@@ -17,7 +18,7 @@ PRIVATE_NAMES = {'settings.json', 'diagnostics.json', 'bridge.log', 'RSBridgePla
 def package(player, output):
     player = Path(player).resolve()
     output = Path(output).resolve()
-    required = [ROOT / name for name in PUBLIC_FILES] + [ROOT / 'bin/RS_ASIO.dll', player / 'RocksmithStreamBridge.exe', player / '_internal']
+    required = [ROOT / name for name in PUBLIC_FILES] + [ROOT / 'bin/RS_ASIO.dll', ROOT / 'bin/avrt.dll', player / 'RocksmithStreamBridge.exe', player / '_internal']
     for file in required:
         if not file.exists():
             raise FileNotFoundError(file)
@@ -26,6 +27,7 @@ def package(player, output):
     manifest = {}
     files = [(ROOT / name, name) for name in PUBLIC_FILES]
     files.append((ROOT / 'bin/RS_ASIO.dll', 'bin/RS_ASIO.dll'))
+    files.append((ROOT / 'bin/avrt.dll', 'bin/avrt.dll'))
     # Only the executable and its runtime are public. No recursively copied user files.
     files.append((player / 'RocksmithStreamBridge.exe', 'player/RocksmithStreamBridge.exe'))
     files.extend((file, 'player/' + file.relative_to(player).as_posix()) for file in sorted((player / '_internal').rglob('*')) if file.is_file())

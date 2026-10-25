@@ -20,7 +20,7 @@ class HeadlessPlayerTests(unittest.TestCase):
                 runner.messages.put(('connected', 'Connected'))
                 runner.messages.put(('done', None))
 
-            with patch.object(app, 'ROOT', root), patch.object(app, 'output_devices', return_value=[(22, 'Test headphones')]), patch.object(app.App, 'audio_worker', audio), patch.object(app.tk, 'Tk', side_effect=AssertionError('Headless player created a window')), patch.object(sys, 'argv', ['app.py', '--audio-only', '--parent-pid', '1234']):
+            with patch.object(app, 'DATA_DIR', root), patch.object(app, 'output_devices', return_value=[(22, 'Test headphones')]), patch.object(app.App, 'audio_worker', audio), patch.object(app.tk, 'Tk', side_effect=AssertionError('Headless player created a window')), patch.object(sys, 'argv', ['app.py', '--audio-only', '--parent-pid', '1234']):
                 app.run_audio_only()
             result = json.loads((root / 'diagnostics.json').read_text(encoding='utf-8'))
             self.assertTrue(result['audio_only'])
@@ -33,7 +33,7 @@ class HeadlessPlayerTests(unittest.TestCase):
             root = Path(directory)
             settings = root / 'settings.json'
             settings.write_text('{"output":"Original"}')
-            with patch.object(app, 'ROOT', root), patch.object(app, 'output_devices', return_value=[(1, 'Available')]):
+            with patch.object(app, 'DATA_DIR', root), patch.object(app, 'output_devices', return_value=[(1, 'Available')]):
                 with self.assertRaises(ValueError):
                     app.save_output('Disconnected')
                 self.assertEqual(json.loads(settings.read_text())['output'], 'Original')

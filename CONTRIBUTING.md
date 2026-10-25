@@ -2,7 +2,7 @@
 
 ## Build on Windows
 
-Install Python 3.12 x64, Node.js 22, Visual Studio Build Tools 2022 with MSVC v143 (x86/x64), and a Windows 10/11 SDK.
+Install Python 3.12 x64, Node.js 22, Visual Studio Build Tools 2022 with MSVC v143 (x86/x64), a Windows 10/11 SDK, and Inno Setup 6.7.3 or newer.
 
 ```powershell
 python -m venv .venv
@@ -16,11 +16,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\Install.Tests.ps1
 .\.venv\Scripts\python.exe -m PyInstaller --noconfirm RocksmithStreamBridge.spec
 .\.venv\Scripts\python.exe tools/collect_licenses.py
 .\.venv\Scripts\python.exe tools/package_release.py
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\BuildInstaller.ps1
 ```
 
 `Build.ps1` downloads the fixed RS_ASIO v0.7.4 release, patches a clean source tree and builds the DLL x86. The player is x64. Native and Python tests verify the shared-memory protocol across those architectures. The installer tests use isolated dummy files, never the actual game.
 
-GitHub Actions runs those checks and generates a ZIP with a SHA256 checksum. Successful main-branch builds publish an **experimental prerelease**, with a unique preview tag for that build, on the repository's Releases page. Pull-request and manually dispatched builds do not publish releases.
+GitHub Actions also compiles the Inno Setup installer and tests actual installation/uninstallation against a synthetic game folder. It generates Setup.exe and a portable ZIP with SHA256 checksums. Successful main-branch builds publish an **experimental prerelease**, with a unique preview tag for that build, on the repository's Releases page. Pull-request and manually dispatched builds do not publish releases.
 
 ## Architecture
 

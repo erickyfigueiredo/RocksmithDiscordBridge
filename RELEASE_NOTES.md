@@ -1,12 +1,13 @@
-Initial experimental Windows preview.
+Experimental Windows preview 0.2.0: graphical installation with Inno Setup.
 
-- Share Rocksmith 2014 directly in Discord, with copied ASIO audio from a windowless child process.
-- Keep the original game image; no reduced preview window or always-on-top overlay is required.
-- Select your Windows audio output during installation.
-- Preserve existing RS_ASIO routes, channels, buffers and game video settings.
-- Back up the current installation and support restoration.
-- Include a portable x64 player, modified x86 RS_ASIO DLL, license notices and SHA256 checksums.
+- Download **RocksmithDiscordBridge-Setup-x64.exe** for the normal installation flow. No PowerShell/CMD is invoked by setup, audio configuration or uninstall.
+- Review prerequisites in the wizard and DEPENDENCIES.md. Python and app libraries are bundled.
+- Install missing RS_ASIO support from included files and select the initial ASIO driver/channel if needed.
+- Optionally download/install ASIO4ALL or Microsoft runtime repairs, only after selecting them, with fixed SHA256 verification and their normal graphical installers.
+- Configure audio through the Start menu. Settings/diagnostics are stored per user under LocalAppData.
+- Uninstall through Windows Settings to restore previous game files; later user modifications are retained.
+- Share **Rocksmith 2014 itself with sound** in Discord, preserving the original game image.
 
-Requires Windows 10/11 x64, Discord desktop and an existing working RS_ASIO 0.7.4 setup. End-to-end streaming has been confirmed on one Windows setup; broader hardware compatibility remains experimental. The copied audio has a requested 60 ms playback buffer. The package is unsigned.
+Requires Windows 10/11 x64, Steam's Rocksmith 2014 Remastered, Discord desktop, an appropriate 32-bit ASIO driver and an available stereo Windows output. First-time ASIO users must check interface devices/channels and 48 kHz. Copied audio requests a 60 ms playback buffer. This community preview is unsigned and broader hardware compatibility remains experimental.
 
-Extract the entire Windows ZIP, close the game and run `Instalar.cmd`. Open the game through Steam, then share **Rocksmith 2014 with sound** in Discord. See README.md or README.pt-BR.md for details.
+The portable ZIP is retained for advanced users. Source code, installer script, tests and build automation are available in the repository. No game files, local machine settings, logs or credentials are included.

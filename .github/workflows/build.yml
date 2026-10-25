@@ -46,11 +46,27 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python tools/package_release.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build graphical Inno Setup installer and smoke test
+        shell: pwsh
+        run: |
+          $taskCompiler = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if ((-not (Test-Path -LiteralPath $taskCompiler)) -or ([version](Get-Item -LiteralPath $taskCompiler).VersionInfo.FileVersion -lt [version]'6.7.3')) {
+            $taskBootstrap = Join-Path $env:RUNNER_TEMP 'inno-compiler-setup.exe'
+            Invoke-WebRequest 'https://github.com/jrsoftware/issrc/releases/download/is-6_7_3/innosetup-6.7.3.exe' -OutFile $taskBootstrap
+            if ((Get-FileHash -LiteralPath $taskBootstrap).Hash -ne '9C73C3BAE7ED48D44112A0F48E66742C00090BDB5BEF71D9D3C056C66E97B732') { throw 'Inno Setup checksum mismatch' }
+            $taskCompilerDir = Join-Path $env:RUNNER_TEMP 'InnoCompiler'
+            $taskBootstrapProcess = Start-Process -FilePath $taskBootstrap -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/SP-',('/DIR="'+$taskCompilerDir+'"') -Wait -PassThru -WindowStyle Hidden
+            if ($taskBootstrapProcess.ExitCode -ne 0) { throw 'Compiler bootstrap failed' }
+            $taskCompiler = Join-Path $taskCompilerDir 'ISCC.exe'
+          }
+          ./tools/BuildInstaller.ps1 -Compiler $taskCompiler
+          ./tests/Installer.Smoke.ps1
       - uses: actions/upload-artifact@v4
         with:
           name: Windows-x64-release
           path: |
             release/RocksmithDiscordBridge-Windows-x64.zip
+            release/RocksmithDiscordBridge-Setup-x64.exe
             release/SHA256SUMS.txt
           if-no-files-found: error
   preview-release:
@@ -71,4 +87,4 @@ jobs:
         run: |
           version=$(cat VERSION)
           tag="v${version}-preview.${GITHUB_RUN_NUMBER}"
-          gh release create "$tag" release/RocksmithDiscordBridge-Windows-x64.zip release/SHA256SUMS.txt --prerelease --target "$GITHUB_SHA" --title "$tag" --notes-file RELEASE_NOTES.md
+          gh release create "$tag" release/RocksmithDiscordBridge-Windows-x64.zip release/RocksmithDiscordBridge-Setup-x64.exe release/SHA256SUMS.txt --prerelease --target "$GITHUB_SHA" --title "$tag" --notes-file RELEASE_NOTES.md
