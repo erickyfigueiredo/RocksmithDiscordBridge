@@ -11,6 +11,7 @@ release*/
 backups/
 *.log
 settings.json
+ui.json
 diagnostics.json
 RSBridgePlayer.txt
 STATUS.md

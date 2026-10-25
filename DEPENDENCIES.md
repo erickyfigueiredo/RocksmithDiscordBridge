@@ -12,10 +12,16 @@
 
 ## Optional downloads / Downloads opcionais
 
-- **ASIO4ALL 2.22:** only after selecting its checkbox. Downloaded from https://asio4all.org/downloads/ASIO4ALL_2_22.exe with a fixed SHA256 check. Its own graphical setup/license opens. Configure devices/channels and 48 kHz afterward. It is not needed when an appropriate manufacturer's ASIO driver is already installed.
+- **ASIO4ALL 2.22:** choosing **USB interface / not sure** selects its download if it is missing. Review the checkbox on Prepare audio before installing. Downloaded from https://asio4all.org/downloads/ASIO4ALL_2_22.exe with a fixed SHA256 check. Its own graphical setup/license opens. The audio wizard then opens its device panel. Select only your interface's input/output and use 48 kHz. It is not needed when an appropriate manufacturer's ASIO driver is already installed.
 - **Microsoft Visual C++ v14 x86/x64:** optional repairs for game/third-party-driver dependencies. Our RS_ASIO DLL links the C++ runtime statically; the player bundles its runtime. These repairs are not claimed as universally required. The wizard uses version-pinned Microsoft URLs and SHA256 checks, with the standard Microsoft progress UI and no forced immediate reboot.
 
-Nenhum download de terceiros fica marcado automaticamente. Os arquivos RS_ASIO incluídos não exigem download. Drivers específicos de fabricantes devem vir dos respectivos sites oficiais: o assistente não adivinha nem substitui esses drivers.
+Ao escolher **Interface USB / não sei**, o assistente marca o ASIO4ALL para instalação se ele estiver ausente. A tela Preparar áudio mostra o download antes de instalar. Os reparos Visual C++ ficam em **Avançado** e começam desmarcados. O suporte RS_ASIO já vem incluído. Drivers de fabricantes devem vir dos sites oficiais.
+
+## Interface USB versus ASIO driver
+
+A USB device name is not necessarily an ASIO driver name. If your interface has no native 32-bit ASIO driver, it appears inside the ASIO4ALL device panel instead. The normal USB path selects ASIO4ALL; it never substitutes the first unrelated driver in the registry. Manufacturer drivers remain available in the advanced path. Input **1** in the wizard becomes channel **0** in RS_ASIO.ini.
+
+O nome da interface USB pode não aparecer na lista de drivers. Nesse caso, escolha **Interface USB** e ative a interface dentro do painel ASIO4ALL. A entrada **1** do assistente corresponde ao canal **0** do arquivo técnico.
 
 Dependency installers may request a restart. Uninstalling the bridge does not remove shared ASIO drivers or Microsoft runtimes used by other applications.
 

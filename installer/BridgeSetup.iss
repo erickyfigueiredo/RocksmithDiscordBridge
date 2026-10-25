@@ -1,5 +1,5 @@
 #ifndef AppVersion
-#define AppVersion "0.2.0"
+#define AppVersion "0.3.0"
 #endif
 [Setup]
 AppId={{341F8138-1E9E-4EAD-8253-DC4628AFC65B}
@@ -28,22 +28,42 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 
 [CustomMessages]
+english.ConnectionTitle=Connect your guitar
+english.ConnectionDescription=Which audio setup do you use?
+english.ConnectionPrompt=Your USB interface is selected inside its driver panel, after installation.
+english.USBInterface=USB interface / not sure — use ASIO4ALL (download if needed)
+english.Manufacturer=I have my interface manufacturer's ASIO driver — advanced
+english.Advanced=Show advanced repairs
+english.RepairsTitle=Advanced repairs
+english.RepairsDescription=Only select these if a game or driver dependency needs repair.
+english.USBPrompt=ASIO4ALL is selected. You will choose your USB interface in its panel after installation.
+english.InvalidInput=Enter the physical input number, from 1 to 64.
+brazilianportuguese.ConnectionTitle=Conectar a guitarra
+brazilianportuguese.ConnectionDescription=Como você usa o áudio?
+brazilianportuguese.ConnectionPrompt=A interface USB será escolhida no painel do driver, depois da instalação.
+brazilianportuguese.USBInterface=Interface USB / não sei — usar ASIO4ALL (baixar se necessário)
+brazilianportuguese.Manufacturer=Tenho o driver ASIO do fabricante da interface — avançado
+brazilianportuguese.Advanced=Mostrar reparos avançados
+brazilianportuguese.RepairsTitle=Reparos avançados
+brazilianportuguese.RepairsDescription=Marque só se precisar reparar uma dependência do jogo ou driver.
+brazilianportuguese.USBPrompt=ASIO4ALL selecionado. Depois de instalar, escolha sua interface USB no painel dele.
+brazilianportuguese.InvalidInput=Digite o número da entrada da interface, de 1 a 64.
 english.GameTitle=Rocksmith 2014 folder
 english.GameDescription=Choose the folder containing Rocksmith2014.exe.
 english.GamePrompt=Run the game once before installing. Its configuration file must exist.
-english.PrereqTitle=Dependencies and optional installation
-english.PrereqDescription=Review the requirements and choose what this wizard may install.
-english.PrereqPrompt=Included: Python and app libraries. Required: Steam game, Discord desktop and a 32-bit ASIO driver. Prefer your interface manufacturer's driver. Additional downloads happen only for checked items.
-english.BaseASIO=Install missing RS_ASIO 0.7.4 support files (included; existing configuration is preserved)
-english.ASIO4ALL=Download and install ASIO4ALL 2.22 (optional fallback driver; its own setup/license will open)
+english.PrereqTitle=Prepare audio
+english.PrereqDescription=These are the components for your selected setup.
+english.PrereqPrompt=Keep Steam and Discord installed. Python is already included.
+english.BaseASIO=Game audio support (included)
+english.ASIO4ALL=ASIO4ALL 2.22 (download and open its installer)
 english.VCx86=Download Microsoft Visual C++ v14 x86 runtime (optional repair for game/driver dependencies)
 english.VCx64=Download Microsoft Visual C++ v14 x64 runtime (optional repair; Python runtime is already included)
-english.DriverTitle=First-time ASIO configuration
-english.DriverDescription=Choose the 32-bit ASIO driver for your guitar interface.
-english.DriverPrompt=Use the manufacturer's ASIO driver when available. ASIO4ALL requires choosing the correct devices in its own control panel. Use 48 kHz. Existing RS_ASIO settings will be preserved.
-english.Channel=Guitar input channel (zero-based):
-english.Configure=Choose where to hear the copied game audio
-english.Finish=Share ROCKSMITH 2014 itself with sound in Discord. Configure the audio output using the Start menu shortcut. First-time ASIO users must check their interface devices, channels and 48 kHz in the driver control panel.
+english.DriverTitle=Guitar input
+english.DriverDescription=Which input on your interface is your guitar plugged into?
+english.DriverPrompt=Select your manufacturer's ASIO driver. For a USB interface without one, go back and choose ASIO4ALL.
+english.Channel=Guitar plugged into input:
+english.Configure=Configure guitar, headphones and test audio
+english.Finish=One more step: configure your guitar and headphones, then test the audio.
 english.InvalidGame=Select the game folder and run Rocksmith once first (Rocksmith2014.exe and Rocksmith.ini are required).
 english.MissingBase=RS_ASIO is missing. Select installation of its included support files.
 english.MissingDriver=Choose an existing 32-bit ASIO driver, or select ASIO4ALL installation. You can also install your manufacturer's driver separately and reopen this wizard.
@@ -54,19 +74,19 @@ english.RestoreFailure=The game integration could not be restored. Uninstallatio
 brazilianportuguese.GameTitle=Pasta do Rocksmith 2014
 brazilianportuguese.GameDescription=Escolha a pasta que contém Rocksmith2014.exe.
 brazilianportuguese.GamePrompt=Abra o jogo uma vez antes de instalar. O arquivo de configuração precisa existir.
-brazilianportuguese.PrereqTitle=Dependências e instalação opcional
-brazilianportuguese.PrereqDescription=Confira os requisitos e escolha o que este assistente pode instalar.
-brazilianportuguese.PrereqPrompt=Incluídos: Python e bibliotecas do aplicativo. Necessários: jogo Steam, Discord desktop e driver ASIO de 32 bits. Prefira o driver do fabricante da interface. Só haverá downloads dos itens marcados.
-brazilianportuguese.BaseASIO=Instalar suporte RS_ASIO 0.7.4 que estiver faltando (incluído; preserva a configuração existente)
-brazilianportuguese.ASIO4ALL=Baixar e instalar ASIO4ALL 2.22 (alternativa opcional; abre o instalador/licença próprio)
+brazilianportuguese.PrereqTitle=Preparar áudio
+brazilianportuguese.PrereqDescription=Estes são os componentes para a opção escolhida.
+brazilianportuguese.PrereqPrompt=Mantenha Steam e Discord instalados. O Python já está incluído.
+brazilianportuguese.BaseASIO=Suporte de áudio do jogo (incluído)
+brazilianportuguese.ASIO4ALL=ASIO4ALL 2.22 (baixar e abrir o instalador dele)
 brazilianportuguese.VCx86=Baixar runtime Microsoft Visual C++ v14 x86 (reparo opcional para dependências do jogo/driver)
 brazilianportuguese.VCx64=Baixar runtime Microsoft Visual C++ v14 x64 (reparo opcional; runtime Python já incluído)
-brazilianportuguese.DriverTitle=Primeira configuração ASIO
-brazilianportuguese.DriverDescription=Escolha o driver ASIO de 32 bits da interface da guitarra.
-brazilianportuguese.DriverPrompt=Use o driver ASIO do fabricante quando disponível. No ASIO4ALL, escolha os dispositivos no painel dele. Use 48 kHz. Configurações RS_ASIO existentes serão preservadas.
-brazilianportuguese.Channel=Canal da entrada da guitarra (começa em zero):
-brazilianportuguese.Configure=Escolher onde ouvir a cópia do áudio do jogo
-brazilianportuguese.Finish=Compartilhe o próprio ROCKSMITH 2014 com som no Discord. Configure a saída pelo atalho do menu Iniciar. Na primeira configuração ASIO, confira dispositivos, canais e 48 kHz no painel do driver.
+brazilianportuguese.DriverTitle=Entrada da guitarra
+brazilianportuguese.DriverDescription=Em qual entrada da interface a guitarra está conectada?
+brazilianportuguese.DriverPrompt=Escolha o driver ASIO do fabricante. Se a interface USB não tem um, volte e escolha ASIO4ALL.
+brazilianportuguese.Channel=Guitarra conectada na entrada:
+brazilianportuguese.Configure=Configurar guitarra, fone e testar áudio
+brazilianportuguese.Finish=Falta um passo: configure a guitarra e o fone, depois teste o áudio.
 brazilianportuguese.InvalidGame=Selecione a pasta do jogo e abra o Rocksmith uma vez antes (Rocksmith2014.exe e Rocksmith.ini são necessários).
 brazilianportuguese.MissingBase=O RS_ASIO está ausente. Marque a instalação dos arquivos de suporte incluídos.
 brazilianportuguese.MissingDriver=Escolha um driver ASIO de 32 bits existente ou marque a instalação do ASIO4ALL. Você também pode instalar o driver do fabricante e reabrir este assistente.
@@ -83,13 +103,14 @@ Source: "..\bin\avrt.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
 Source: "..\config\RS_ASIO.ini"; DestDir: "{app}\config"; Flags: ignoreversion
 Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\README.pt-BR.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\DEPENDENCIES.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\PRIVACY.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\THIRD_PARTY_NOTICES.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\licenses\*"; DestDir: "{app}\licenses"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\Configure audio"; Filename: "{app}\player\RocksmithStreamBridge.exe"; Parameters: "--configure-output"
+Name: "{group}\{cm:Configure}"; Filename: "{app}\player\RocksmithStreamBridge.exe"; Parameters: "--configure-output"
 Name: "{group}\Rocksmith 2014"; Filename: "steam://rungameid/221680"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
 
@@ -99,8 +120,12 @@ Filename: "{app}\player\RocksmithStreamBridge.exe"; Parameters: "--configure-out
 [Code]
 var
   GamePage: TInputDirWizardPage;
+  ConnectionPage: TInputOptionWizardPage;
   Dependencies: TInputOptionWizardPage;
+  Repairs: TInputOptionWizardPage;
+  Advanced: TNewCheckBox;
   DriverPage: TWizardPage;
+  DriverPrompt: TNewStaticText;
   DriverList: TNewComboBox;
   Channel: TNewEdit;
   DownloadPage: TDownloadWizardPage;
@@ -169,7 +194,10 @@ begin
   if Dependencies.Values[1] and (DriverList.Items.IndexOf('ASIO4ALL v2') < 0) then DriverList.Items.Add('ASIO4ALL v2');
   if (ExpandConstant('{param:ASIO_DRIVER|}') <> '') and (DriverList.Items.IndexOf(ExpandConstant('{param:ASIO_DRIVER|}')) < 0) then DriverList.Items.Add(ExpandConstant('{param:ASIO_DRIVER|}'));
   DriverList.ItemIndex := DriverList.Items.IndexOf(Selected);
-  if (DriverList.ItemIndex < 0) and (DriverList.Items.Count > 0) then DriverList.ItemIndex := 0;
+  { Never silently choose an unrelated driver just because it was registered first. }
+  if ConnectionPage.Values[0] then DriverList.ItemIndex := DriverList.Items.IndexOf('ASIO4ALL v2');
+  if ExpandConstant('{param:ASIO_DRIVER|}') <> '' then
+    DriverList.ItemIndex := DriverList.Items.IndexOf(ExpandConstant('{param:ASIO_DRIVER|}'));
 end;
 
 procedure InitializeWizard;
@@ -179,19 +207,30 @@ begin
   GamePage.Add('Rocksmith 2014:');
   GamePage.Values[0] := ExpandConstant('{param:GAME_DIR|}');
   if GamePage.Values[0] = '' then GamePage.Values[0] := DetectGame;
-  Dependencies := CreateInputOptionPage(GamePage.ID, CustomMessage('PrereqTitle'), CustomMessage('PrereqDescription'), CustomMessage('PrereqPrompt'), False, False);
+  ConnectionPage := CreateInputOptionPage(GamePage.ID, CustomMessage('ConnectionTitle'), CustomMessage('ConnectionDescription'), CustomMessage('ConnectionPrompt'), True, False);
+  ConnectionPage.Add(CustomMessage('USBInterface'));
+  ConnectionPage.Add(CustomMessage('Manufacturer'));
+  ConnectionPage.SelectedValueIndex := 0;
+  if ExpandConstant('{param:ASIO_DRIVER|}') <> '' then ConnectionPage.SelectedValueIndex := 1;
+  Dependencies := CreateInputOptionPage(ConnectionPage.ID, CustomMessage('PrereqTitle'), CustomMessage('PrereqDescription'), CustomMessage('PrereqPrompt'), False, False);
   Dependencies.Add(CustomMessage('BaseASIO'));
   Dependencies.Add(CustomMessage('ASIO4ALL'));
-  Dependencies.Add(CustomMessage('VCx86'));
-  Dependencies.Add(CustomMessage('VCx64'));
+  Dependencies.CheckListBox.Height := ScaleY(120);
+  Advanced := TNewCheckBox.Create(Dependencies);
+  Advanced.Parent := Dependencies.Surface;
+  Advanced.SetBounds(0, ScaleY(190), Dependencies.SurfaceWidth, ScaleY(24));
+  Advanced.Caption := CustomMessage('Advanced');
+  Repairs := CreateInputOptionPage(Dependencies.ID, CustomMessage('RepairsTitle'), CustomMessage('RepairsDescription'), '', False, False);
+  Repairs.Add(CustomMessage('VCx86'));
+  Repairs.Add(CustomMessage('VCx64'));
   Dependencies.Values[0] := (not FileExists(GameDirectory + '\avrt.dll')) or (not FileExists(GameDirectory + '\RS_ASIO.ini'));
   if ExpandConstant('{param:INITIALIZE_ASIO|0}') = '1' then Dependencies.Values[0] := True;
-  DriverPage := CreateCustomPage(Dependencies.ID, CustomMessage('DriverTitle'), CustomMessage('DriverDescription'));
-  LabelControl := TNewStaticText.Create(DriverPage);
-  LabelControl.Parent := DriverPage.Surface;
-  LabelControl.SetBounds(0, 0, DriverPage.SurfaceWidth, ScaleY(64));
-  LabelControl.AutoSize := False; LabelControl.WordWrap := True;
-  LabelControl.Caption := CustomMessage('DriverPrompt');
+  DriverPage := CreateCustomPage(Repairs.ID, CustomMessage('DriverTitle'), CustomMessage('DriverDescription'));
+  DriverPrompt := TNewStaticText.Create(DriverPage);
+  DriverPrompt.Parent := DriverPage.Surface;
+  DriverPrompt.SetBounds(0, 0, DriverPage.SurfaceWidth, ScaleY(64));
+  DriverPrompt.AutoSize := False; DriverPrompt.WordWrap := True;
+  DriverPrompt.Caption := CustomMessage('DriverPrompt');
   DriverList := TNewComboBox.Create(DriverPage);
   DriverList.Parent := DriverPage.Surface;
   DriverList.SetBounds(0, ScaleY(78), DriverPage.SurfaceWidth, ScaleY(24));
@@ -201,37 +240,26 @@ begin
   LabelControl.Top := ScaleY(120); LabelControl.Caption := CustomMessage('Channel');
   Channel := TNewEdit.Create(DriverPage);
   Channel.Parent := DriverPage.Surface;
-  Channel.SetBounds(0, ScaleY(144), ScaleX(80), ScaleY(24)); Channel.Text := '0';
+  Channel.SetBounds(0, ScaleY(144), ScaleX(80), ScaleY(24)); Channel.Text := '1';
   RefreshDrivers;
-  if ExpandConstant('{param:ASIO_DRIVER|}') <> '' then begin
-    DriverList.Items.Add(ExpandConstant('{param:ASIO_DRIVER|}'));
-    DriverList.ItemIndex := DriverList.Items.Count-1;
-  end;
   DownloadPage := CreateDownloadPage(CustomMessage('Downloads'), '', nil);
   WizardForm.FinishedLabel.Caption := CustomMessage('Finish');
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
-  Result := (PageID = DriverPage.ID) and FileExists(GameDirectory + '\RS_ASIO.ini');
+  Result := ((PageID = DriverPage.ID) or (PageID = ConnectionPage.ID)) and FileExists(GameDirectory + '\RS_ASIO.ini');
+  if PageID = Repairs.ID then Result := not Advanced.Checked;
 end;
 
 procedure CurPageChanged(CurPageID: Integer);
-var Drivers: TArrayOfString; Installed: Cardinal; X86State, X64State: String;
 begin
-  if CurPageID = Dependencies.ID then begin
-    RegGetSubkeyNames(HKLM32, 'SOFTWARE\ASIO', Drivers);
-    X86State := 'not detected'; X64State := 'not detected';
-    if RegQueryDWordValue(HKLM32, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86', 'Installed', Installed) then
-      if Installed = 1 then X86State := 'installed';
-    if RegQueryDWordValue(HKLM64, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Installed', Installed) then
-      if Installed = 1 then X64State := 'installed';
-    Dependencies.SubCaptionLabel.Caption := CustomMessage('PrereqPrompt') + #13#10 + 'ASIO 32-bit: ' + IntToStr(GetArrayLength(Drivers)) + ' | VC++ x86: ' + X86State + ' | VC++ x64: ' + X64State;
-    Dependencies.SubCaptionLabel.Height := ScaleY(88);
-    Dependencies.CheckListBox.Top := ScaleY(96);
-    Dependencies.CheckListBox.Height := Dependencies.SurfaceHeight - ScaleY(96);
+  if CurPageID = DriverPage.ID then begin
+    RefreshDrivers;
+    DriverList.Visible := not ConnectionPage.Values[0];
+    if ConnectionPage.Values[0] then DriverPrompt.Caption := CustomMessage('USBPrompt')
+    else DriverPrompt.Caption := CustomMessage('DriverPrompt');
   end;
-  if CurPageID = DriverPage.ID then RefreshDrivers;
   if CurPageID = wpFinished then WizardForm.FinishedLabel.Caption := CustomMessage('Finish');
 end;
 
@@ -246,11 +274,23 @@ begin
   if CurPageID = Dependencies.ID then begin
     Result := Dependencies.Values[0] or (FileExists(GameDirectory + '\avrt.dll') and FileExists(GameDirectory + '\RS_ASIO.ini'));
     if not Result then MsgBox(CustomMessage('MissingBase'), mbError, MB_OK);
+    if Result and ConnectionPage.Values[0] and (not FileExists(GameDirectory + '\RS_ASIO.ini')) then begin
+      Result := Dependencies.Values[1] or RegKeyExists(HKLM32, 'SOFTWARE\ASIO\ASIO4ALL v2');
+      if not Result then MsgBox(CustomMessage('MissingDriver'), mbError, MB_OK);
+    end;
+    RefreshDrivers;
+  end;
+  if CurPageID = ConnectionPage.ID then begin
+    Dependencies.Values[1] := ConnectionPage.Values[0] and (not RegKeyExists(HKLM32, 'SOFTWARE\ASIO\ASIO4ALL v2'));
     RefreshDrivers;
   end;
   if (CurPageID = DriverPage.ID) and (not FileExists(GameDirectory + '\RS_ASIO.ini')) then begin
-    Result := (DriverList.Text <> '') and (Pos('"', DriverList.Text) = 0) and (StrToIntDef(Channel.Text, -1) >= 0) and (StrToIntDef(Channel.Text, 64) < 64);
+    Result := (DriverList.Text <> '') and (Pos('"', DriverList.Text) = 0);
     if not Result then MsgBox(CustomMessage('MissingDriver'), mbError, MB_OK);
+    if Result then begin
+      Result := (StrToIntDef(Channel.Text, -1) >= 1) and (StrToIntDef(Channel.Text, 65) <= 64);
+      if not Result then MsgBox(CustomMessage('InvalidInput'), mbError, MB_OK);
+    end;
   end;
 end;
 
@@ -272,8 +312,8 @@ begin
   if not IsGameClosed then begin Result := CustomMessage('CloseGame'); Exit; end;
   try
     if Dependencies.Values[1] then InstallDependency('https://asio4all.org/downloads/ASIO4ALL_2_22.exe', 'ASIO4ALL.exe', '0d4f0c63bf5df077e4c74f18372f72b8e875a9abea499fea78aaa9f56022ac7e', '', SW_SHOWNORMAL);
-    if Dependencies.Values[2] then InstallDependency('https://download.visualstudio.microsoft.com/download/pr/990c720a-46ce-4dc7-87b9-c2eb615d34b9/0C09F2611660441084CE0DF425C51C11E147E6447963C3690F97E0B25C55ED64/VC_redist.x86.exe', 'VCx86.exe', '0c09f2611660441084ce0df425c51c11e147e6447963c3690f97e0b25c55ed64', '/passive /norestart', SW_SHOWNORMAL);
-    if Dependencies.Values[3] then InstallDependency('https://download.visualstudio.microsoft.com/download/pr/990c720a-46ce-4dc7-87b9-c2eb615d34b9/CC0FF0EB1DC3F5188AE6300FAEF32BF5BEEBA4BDD6E8E445A9184072096B713B/VC_redist.x64.exe', 'VCx64.exe', 'cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b', '/passive /norestart', SW_SHOWNORMAL);
+    if Advanced.Checked and Repairs.Values[0] then InstallDependency('https://download.visualstudio.microsoft.com/download/pr/990c720a-46ce-4dc7-87b9-c2eb615d34b9/0C09F2611660441084CE0DF425C51C11E147E6447963C3690F97E0B25C55ED64/VC_redist.x86.exe', 'VCx86.exe', '0c09f2611660441084ce0df425c51c11e147e6447963c3690f97e0b25c55ed64', '/passive /norestart', SW_SHOWNORMAL);
+    if Advanced.Checked and Repairs.Values[1] then InstallDependency('https://download.visualstudio.microsoft.com/download/pr/990c720a-46ce-4dc7-87b9-c2eb615d34b9/CC0FF0EB1DC3F5188AE6300FAEF32BF5BEEBA4BDD6E8E445A9184072096B713B/VC_redist.x64.exe', 'VCx64.exe', 'cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b', '/passive /norestart', SW_SHOWNORMAL);
   except Result := GetExceptionMessage; end;
 end;
 
@@ -291,7 +331,7 @@ begin
     ReportFile := ExpandConstant('{tmp}\integration-report.txt');
     Args := '--setup-install --game-directory ' + Q(GameDirectory) + ' --package ' + Q(ExpandConstant('{app}')) + ' --state-file ' + Q(ExpandConstant('{commonappdata}\RocksmithDiscordBridge\installation.json')) + ' --report ' + Q(ReportFile);
     if Dependencies.Values[0] then Args := Args + ' --initialize-asio';
-    Args := Args + ' --driver ' + Q(DriverList.Text) + ' --input-channel ' + Channel.Text;
+    Args := Args + ' --driver ' + Q(DriverList.Text) + ' --input-channel ' + IntToStr(StrToIntDef(Channel.Text, 1)-1);
     if not Exec(ExpandConstant('{app}\player\RocksmithStreamBridge.exe'), Args, '', SW_HIDE, ewWaitUntilTerminated, Code) then RaiseException(SysErrorMessage(Code));
     if Code <> 0 then RaiseException(CustomMessage('InstallFailure') + #13#10 + ReadReport(ReportFile));
   end;

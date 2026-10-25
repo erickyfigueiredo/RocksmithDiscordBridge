@@ -1,13 +1,12 @@
-Experimental Windows preview 0.2.0: graphical installation with Inno Setup.
+Experimental Windows preview 0.3.0: guided audio setup in Portuguese and English.
 
-- Download **RocksmithDiscordBridge-Setup-x64.exe** for the normal installation flow. No PowerShell/CMD is invoked by setup, audio configuration or uninstall.
-- Review prerequisites in the wizard and DEPENDENCIES.md. Python and app libraries are bundled.
-- Install missing RS_ASIO support from included files and select the initial ASIO driver/channel if needed.
-- Optionally download/install ASIO4ALL or Microsoft runtime repairs, only after selecting them, with fixed SHA256 verification and their normal graphical installers.
-- Configure audio through the Start menu. Settings/diagnostics are stored per user under LocalAppData.
-- Uninstall through Windows Settings to restore previous game files; later user modifications are retained.
-- Share **Rocksmith 2014 itself with sound** in Discord, preserving the original game image.
+- Follow Guitar → Headphones → Test, with a language selector.
+- The USB path selects ASIO4ALL instead of silently choosing the first registered driver. Choose the USB interface in its own device panel.
+- Guitar inputs use physical numbering (1, 2…), translated to zero-based channels internally.
+- Manufacturer drivers and optional Microsoft runtime repairs remain available through advanced choices.
+- The test requires fresh, advancing audio packets and a sound signal. A live/frozen game process alone cannot pass. Confirm hearing the game and guitar yourself; a Discord viewer must still validate remote sound and picture.
+- Existing ASIO settings and the original uninstall backups are preserved on reinstall. Other game mods are never disabled automatically.
 
-Requires Windows 10/11 x64, Steam's Rocksmith 2014 Remastered, Discord desktop, an appropriate 32-bit ASIO driver and an available stereo Windows output. First-time ASIO users must check interface devices/channels and 48 kHz. Copied audio requests a 60 ms playback buffer. This community preview is unsigned and broader hardware compatibility remains experimental.
+Download RocksmithDiscordBridge-Setup-x64.exe. Python and app libraries are included. ASIO4ALL is selected for download only after choosing the USB path when it is missing; review components before installing. See DEPENDENCIES.md for requirements. No PowerShell/CMD in the normal flow.
 
-The portable ZIP is retained for advanced users. Source code, installer script, tests and build automation are available in the repository. No game files, local machine settings, logs or credentials are included.
+Windows 10/11 x64, Steam Rocksmith 2014, Discord desktop, a suitable ASIO driver and stereo Windows output are required. Unsigned experimental community preview. The copied audio requests a 60 ms buffer; total playing latency is not measured.

@@ -450,12 +450,16 @@ if __name__ == '__main__':
         from bridge.installation import main
         raise SystemExit(main(sys.argv[1:]))
     elif '--configure-output' in sys.argv:
-        raise SystemExit(configure_output())
+        from bridge.setup_ui import run_setup
+        raise SystemExit(run_setup(DATA_DIR, output_devices, save_output, game_pids))
     elif '--set-output' in sys.argv:
         save_output(sys.argv[sys.argv.index('--set-output') + 1])
     elif '--audio-only' in sys.argv:
         run_audio_only()
-    else:
+    elif '--diagnostic-preview' in sys.argv:
         root = tk.Tk()
         App(root)
         root.mainloop()
+    else:
+        from bridge.setup_ui import run_setup
+        raise SystemExit(run_setup(DATA_DIR, output_devices, save_output, game_pids))

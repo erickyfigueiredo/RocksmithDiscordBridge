@@ -14,14 +14,14 @@ O mod abre um reprodutor invisível como processo filho do Rocksmith. O Discord 
 - Saída estéreo WASAPI disponível para ouvir a cópia do áudio.
 - **Python e bibliotecas já incluídos.** Não precisa instalar Python, Node.js, OBS, Voicemeeter ou ferramentas de desenvolvimento.
 
-Leia [DEPENDENCIES.md](DEPENDENCIES.md) para conferir requisitos, componentes incluídos e downloads opcionais. A versão 0.2.0 é uma prévia experimental; outros equipamentos ainda precisam de testes.
+Leia [DEPENDENCIES.md](DEPENDENCIES.md) para conferir requisitos e downloads. A versão 0.3.0 é uma prévia experimental; outros equipamentos ainda precisam de testes.
 
 ## Instalação gráfica
 
 1. Em Releases, baixe **RocksmithDiscordBridge-Setup-x64.exe**. Feche o jogo e abra o instalador.
-2. Siga o assistente **Inno Setup**: escolha a pasta do jogo, confira as dependências detectadas e marque apenas os downloads opcionais que desejar. Nenhum download de terceiros vem marcado automaticamente.
-3. Se faltar RS_ASIO, escolha os arquivos de suporte incluídos, o driver ASIO de 32 bits e o canal da guitarra, começando em zero. Depois confira dispositivos, canais e **48 kHz** no painel do driver.
-4. Ao concluir, escolha **Configurar áudio** para selecionar onde ouvir a cópia do jogo. Esse atalho também fica no menu Iniciar e funciona como seu usuário normal.
+2. Escolha **Interface USB / não sei**, ou o driver do fabricante em **Avançado**. Confira os componentes e selecione a entrada **1, 2…** onde conectou a guitarra.
+3. Siga **Guitarra → Fone → Testar**. Na opção USB, abra o painel ASIO4ALL e ative só a entrada e a saída da sua interface. O nome dela aparece nesse painel, não necessariamente na lista de drivers.
+4. Escolha seu fone, abra o jogo e toque algumas notas. O assistente verifica se chegam novos blocos e sinal de áudio; confirme que ouve o jogo e a guitarra. Português e inglês podem ser trocados na própria janela.
 5. Abra o jogo normalmente pela Steam e compartilhe **Rocksmith 2014 com som** no Discord, na qualidade desejada.
 
 O fluxo principal de instalação, configuração e desinstalação **não executa PowerShell nem CMD**. O ASIO4ALL abre o instalador gráfico/licença próprio. O reparo opcional do Visual C++ mostra o progresso normal da Microsoft. Os downloads têm SHA256 fixo verificado. O assistente avisa caso uma dependência peça reinicialização.
@@ -37,6 +37,8 @@ Feche o jogo e desinstale **Rocksmith Discord Bridge** nas Configurações do Wi
 Configurações e diagnósticos: `%LOCALAPPDATA%\RocksmithDiscordBridge`. Estado da instalação e backups: `%PROGRAMDATA%\RocksmithDiscordBridge`. O aplicativo não envia esses dados. Veja [PRIVACY.md](PRIVACY.md).
 
 Para instalações antigas pelo script portátil, use o Restore.ps1 e o backup indicados por ele.
+
+Se o jogo fechar sozinho, confira outros mods instalados. O assistente avisa quando encontra mods, mas não os desativa nem altera suas configurações. O teste local não confirma a qualidade recebida no Discord: peça a quem assiste para validar imagem e som.
 
 ## Atraso e qualidade
 

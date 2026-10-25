@@ -14,14 +14,14 @@ The mod copies final game audio into a windowless player launched as a child of 
 - An available stereo Windows WASAPI output for the copied sound.
 - **Python and app libraries are already included.** You do not need Python, Node.js, OBS, Voicemeeter or developer tools.
 
-Read [DEPENDENCIES.md](DEPENDENCIES.md) for required software, bundled components, optional downloads and hardware configuration. Version 0.2.0 is an experimental preview. End-to-end streaming has been confirmed on one Windows setup; wider hardware coverage needs testing.
+Read [DEPENDENCIES.md](DEPENDENCIES.md) for required software, bundled components and downloads. Version 0.3.0 is an experimental preview. End-to-end streaming has been confirmed on one Windows setup; wider hardware coverage needs testing.
 
 ## Graphical installation
 
 1. Download **RocksmithDiscordBridge-Setup-x64.exe** from Releases. Close Rocksmith and open Setup.exe.
-2. Follow the **Inno Setup** wizard: select the game folder, review detected dependencies and explicitly choose any optional downloads. No third-party download is checked automatically.
-3. If RS_ASIO is absent, select its included support files, choose your 32-bit ASIO driver and the zero-based guitar input channel. Check devices, channels and **48 kHz** in your driver's control panel afterward.
-4. Finish with **Configure audio**, choosing where to hear the copied sound. This shortcut is also available in the Start menu and runs as the original non-elevated user.
+2. Choose **USB interface / not sure**, or your manufacturer's driver in **Advanced**. Review components and select the physical guitar input **1, 2…**.
+3. Follow **Guitar → Headphones → Test**. For USB, open the ASIO4ALL panel and enable only your interface's input and output. Its device name appears there, not necessarily in the ASIO driver list.
+4. Choose your headphones, open the game and play a few notes. The wizard checks fresh audio packets and sound signal; confirm that you hear the game and guitar. Switch between English and Portuguese in the window.
 5. Open the game normally through Steam. In Discord, share **Rocksmith 2014 with sound**, at your desired resolution/frame rate.
 
 The primary setup/configuration/uninstall flow never invokes PowerShell or CMD. ASIO4ALL opens its own graphical setup/license. Optional Microsoft runtime repairs show their normal progress UI. Dependency downloads use fixed SHA256 checks. If a dependency requests a restart, the wizard reports it without forcing an immediate reboot.
@@ -47,6 +47,7 @@ For an older portable-script installation, use its Restore.ps1 with the backup f
 - Viewer quality still depends on Discord's selected resolution/frame rate, account features, encoding and connection.
 - The tap supports stereo 48 kHz PCM16/24/32 and float32. Other formats are rejected.
 - This is an unsigned experimental community mod, unaffiliated with Ubisoft or Discord. Compatibility with other game/RS_ASIO patches is not guaranteed.
+- If the game closes, test other game mods separately. The audio wizard reports their presence after a game closes; it does not disable them. The local test cannot verify the viewer's Discord picture/sound.
 
 ## Source, builds and credits
 
