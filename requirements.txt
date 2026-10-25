@@ -1,0 +1,4 @@
+numpy>=1.26,<3
+sounddevice>=0.5,<0.6
+Pillow>=10,<13
+windows-capture>=1.4,<3

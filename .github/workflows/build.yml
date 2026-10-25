@@ -1,0 +1,74 @@
+name: Build and test Windows release
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Verify patch, install and restore
+        shell: pwsh
+        run: |
+          node --test tests/patch.test.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./tests/FindGame.Tests.ps1
+          ./tests/Install.Tests.ps1
+      - name: Build x86 RS_ASIO and native tests
+        shell: pwsh
+        run: ./Build.ps1
+      - name: Verify audio protocol and windowless player
+        shell: pwsh
+        run: |
+          python -m pip install -r requirements.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p 'test_*.py' -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Package the player and collect licenses
+        shell: pwsh
+        run: |
+          python -m pip install 'pyinstaller>=6,<7'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m PyInstaller --noconfirm RocksmithStreamBridge.spec
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/collect_licenses.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python tools/package_release.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Windows-x64-release
+          path: |
+            release/RocksmithDiscordBridge-Windows-x64.zip
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+  draft-release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: windows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: Windows-x64-release
+          path: release
+      - name: Create a draft preview release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(cat VERSION)
+          tag="v${version}-preview.${GITHUB_RUN_NUMBER}"
+          gh release create "$tag" release/RocksmithDiscordBridge-Windows-x64.zip release/SHA256SUMS.txt --draft --prerelease --target "$GITHUB_SHA" --title "$tag" --notes-file RELEASE_NOTES.md
