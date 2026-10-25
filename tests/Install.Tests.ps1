@@ -65,4 +65,7 @@ $ErrorActionPreference = 'Continue'
 $ErrorActionPreference = 'Stop'
 if ($LASTEXITCODE -eq 0) { throw 'DLL x64 deveria ter sido rejeitada.' }
 if ((Get-FileHash -LiteralPath (Join-Path $taskGame 'RS_ASIO.dll')).Hash -ne $taskOriginalHash) { throw 'DLL inválida alterou o jogo fictício.' }
+# The rejected x64 installer intentionally returned 1. Do not report that expected
+# rejection as this successful test script's exit status in a pwsh CI step.
+$global:LASTEXITCODE = 0
 Write-Output 'PASS: instalação, encoding UTF-16LE sem BOM, backup/restauração com e sem configuração anterior, preservação de ASIO/vídeo/avrt e rejeição x64.'

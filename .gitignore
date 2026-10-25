@@ -19,3 +19,11 @@ Voicemeeter/
 *.pdb
 *.ilk
 licenses/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.vs/
+*.user
+*.suo
